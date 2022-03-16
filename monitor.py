@@ -15,11 +15,11 @@
 
 # Modified from ryu/app/simple_monitor_13.py
 # https://github.com/faucetsdn/ryu/blob/master/ryu/app/simple_monitor_13.py
-
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from operator import attrgetter
+from pathlib import Path
 from pprint import pprint
 
 import matplotlib.pyplot as plt
@@ -34,6 +34,7 @@ from ryu.lib import hub
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
 from tabulate import tabulate
+from arima import ARIMA
 
 # Monitor interval in seconds
 Interval = 1
@@ -70,6 +71,7 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
             self.db = self.mongo_client.opencdn
             self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
+            self.ARIMA = ARIMA(MongoURL=MongoURL)
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
             exit(1)
@@ -109,14 +111,13 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
     def _port_stats_reply_handler(self, ev):
         body = ev.msg.body
         dpid = "%016x" % ev.msg.datapath.id
-        cur_rx_throughput = 0
-        cur_tx_throughput = 0
-        if dpid == "0000c699ecb9ea46":
-            return
-        table_headers = ["datapath", "port", "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error",
+
+        table_headers = ["datapath", "port",
+                         "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error", "rx-bw arima Mbit/sec",
                          "tx-pkts", "tx-bytes", "tx-bw Mbit/sec", "tx-error"]
         table = []
         for stat in sorted(body, key=attrgetter('port_no')):
+            # print(vars(stat))
             if stat.port_no != 0xfffffffe:
                 prev_stat = PrevStats[dpid][stat.port_no]
 
@@ -135,16 +136,18 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
                     cur_tx_throughput = delta_tx_bytes_count / (
                                 delta_duration_sec + (delta_duration_nsec / 1000000000.0)) * 8.0 / 1000000
 
+                rx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
                         "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
                         "RXpackets": "%8d" % stat.rx_packets, "RXbytes": "%8d" % stat.rx_bytes,
                         "RXerrors": "%8d" % stat.rx_errors, "RXbandwidth": cur_rx_throughput,
+                        "RXbandwidth_arima": rx_bw_arima,
                         "TXpackets": "%8d" % stat.tx_packets, "TXbytes": "%8d" % stat.tx_bytes,
                         "TXerrors": "%8d" % stat.tx_errors, "TXbandwidth": cur_tx_throughput}
                 self.table_port_monitor.insert_one(post)
                 table.append(["%0x" % ev.msg.datapath.id,
                               "%x" % stat.port_no,
-                              stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors,
+                              stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors, rx_bw_arima,
                               stat.tx_packets, stat.tx_bytes, cur_tx_throughput, stat.tx_errors
                               ])
                 PrevStats[dpid][stat.port_no] = Stat(
@@ -153,8 +156,17 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
                     stat.duration_sec,
                     stat.duration_nsec
                 )
+                hwaddr = self.get_hwaddr_from_portno(dpid, stat.port_no)
+
+                if not (hwaddr in SameLink.keys() or hwaddr in SameLink.values()):
+                    self.topo[dpid][hwaddr]["weight"] = cur_tx_throughput
+                    self.draw_topo()
         print(tabulate(table, headers=table_headers))
         print("\n")
+
+    def get_hwaddr_from_portno(self, dpid, port_no):
+        res = self.table_port_info.find({"dpid": dpid, "portno": port_no}).limit(1)
+        return res[0]["hwaddr"]
 
     @set_ev_cls(event.EventPortAdd)
     def _port_add(self, ev):
@@ -179,49 +191,25 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
     @set_ev_cls(event.EventSwitchEnter)
     def handler_switch_enter(self, ev):
         dpid = str("%016x" % ev.switch.dp.id)
-        # pprint(vars(ev.switch))
-        # print("handler_switch_enter, ", dpid)
-        # print("current nodes: ", self.topo.nodes)
-        # if self.topo.has_node(dpid):
-        #     print("node already exist: ", dpid)
-        #     return
-        # import pdb
-        # pdb.set_trace()
         self.topo.add_node(dpid)
         for port in ev.switch.ports:
             post = {"dpid": "%016x" % port.dpid,
                     "portno": port.port_no,
                     "hwaddr": port.hw_addr,
                     "name": port.name.decode("utf-8")}
-            # print("current port")
-            # pprint(post)
+
             self.table_port_info.update_one({"dpid": post["dpid"], "hwaddr": post["hwaddr"]}, {"$set": post}, upsert=True)
-            # if self.topo.has_node(port.hw_addr):
-            #     continue
-            # import pdb
-            # pdb.set_trace()
-            # addr = port.hw_addr
-            # if addr in SameLink.keys():
-            #     addr = SameLink[addr]
             self.topo.add_node(port.hw_addr)
-            # if not self.topo.has_edge(dpid, port.hw_addr):
             self.topo.add_edge(dpid, port.hw_addr)
 
         print("Update switch info finished, dpid: ", dpid)
-        # print("keys: ", ConnectedSW.keys())
-        # if dpid in ConnectedSW.keys() and self.topo.has_node(ConnectedSW[dpid]):
-        #     if not self.topo.has_edge(dpid, ConnectedSW[dpid]):
-        #         self.topo.add_edge(dpid, ConnectedSW[dpid])
-        # print("current nodes before draw: ", self.topo.nodes)
-        # print("current edges before draw: ", self.topo.edges)
         self.draw_topo()
 
     def draw_topo(self):
+        Path("topo").mkdir(exist_ok=True)
+
         for k in SameLink.keys():
             if self.topo.has_node(SameLink[k]):
-                # edges = self.topo.edges(k)
-                # for e in edges:
-                #     nx.contracted_edge(self.topo, e, self_loops=False, copy=False)
                 nx.contracted_nodes(self.topo, k, SameLink[k], self_loops=False, copy=False)
 
         nodes_to_remove = [n for n in self.topo.nodes if len(list(self.topo.neighbors(n))) == 2]
@@ -233,10 +221,19 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
             # And delete the node
             self.topo.remove_node(node)
 
-        pos = nx.spring_layout(self.topo)
+        ports = self.table_port_info.find()
+        dpids = [port["dpid"] for port in ports]
+        fixed_pos = {}
+        count = 0
+        for node in self.topo.nodes:
+            if node in dpids:
+                fixed_pos[node] = (5, count*10)
+                count += 1
+
+        pos = nx.spring_layout(self.topo, pos=fixed_pos, fixed=fixed_pos.keys())
         nx.draw(self.topo, pos, with_labels=True)
         labels = nx.get_edge_attributes(self.topo, "weight")
         nx.draw_networkx_edge_labels(self.topo, pos, edge_labels=labels)
         # plt.show()
-        plt.savefig("topo.png")
+        plt.savefig("topo/topo-%s.png" % datetime.utcnow())
         plt.close()

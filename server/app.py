@@ -1,6 +1,5 @@
 from flask import Flask
 from flask import request
-from topo import load_topo
 
 app = Flask(__name__)
 
@@ -23,5 +22,4 @@ def get_nearest_cache_server():
 
 
 if __name__ == "__main__":
-    load_topo()
     app.run()
