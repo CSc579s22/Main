@@ -33,6 +33,7 @@ from ryu.controller.handler import set_ev_cls
 from ryu.lib import hub
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
+from tabulate import tabulate
 
 # Monitor interval in seconds
 Interval = 1
@@ -112,21 +113,11 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
         cur_tx_throughput = 0
         if dpid == "0000c699ecb9ea46":
             return
-        self.logger.info('\n\ndatapath         port     '
-                         'rx-pkts  rx-bytes rx-error '
-                         'tx-pkts  tx-bytes tx-error '
-                         'rx-bandwidth tx-bandwidth')
-        self.logger.info('---------------- -------- '
-                         '-------- -------- -------- '
-                         '-------- -------- --------'
-                         '------------ ------------')
+        table_headers = ["datapath", "port", "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error",
+                         "tx-pkts", "tx-bytes", "tx-bw Mbit/sec", "tx-error"]
+        table = []
         for stat in sorted(body, key=attrgetter('port_no')):
-            # self.logger.info('%016x %8x %8d %8d %8d %8d %8d %8d',
-            #                  ev.msg.datapath.id, stat.port_no,
-            #                  stat.rx_packets, stat.rx_bytes, stat.rx_errors,
-            #                  stat.tx_packets, stat.tx_bytes, stat.tx_errors)
             if stat.port_no != 0xfffffffe:
-                # pprint(vars(stat))
                 prev_stat = PrevStats[dpid][stat.port_no]
 
                 delta_rx_bytes_count = stat.rx_bytes - prev_stat.prev_rx_bytes_count
@@ -151,17 +142,19 @@ class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
                         "TXpackets": "%8d" % stat.tx_packets, "TXbytes": "%8d" % stat.tx_bytes,
                         "TXerrors": "%8d" % stat.tx_errors, "TXbandwidth": cur_tx_throughput}
                 self.table_port_monitor.insert_one(post)
-                self.logger.info('%016x %8x %8d %8d %8d %8d %8d %8d %f %f',
-                                 ev.msg.datapath.id, stat.port_no,
-                                 stat.rx_packets, stat.rx_bytes, stat.rx_errors,
-                                 stat.tx_packets, stat.tx_bytes, stat.tx_errors,
-                                 cur_rx_throughput, cur_tx_throughput)
+                table.append(["%0x" % ev.msg.datapath.id,
+                              "%x" % stat.port_no,
+                              stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors,
+                              stat.tx_packets, stat.tx_bytes, cur_tx_throughput, stat.tx_errors
+                              ])
                 PrevStats[dpid][stat.port_no] = Stat(
                     stat.rx_bytes,
                     stat.tx_bytes,
                     stat.duration_sec,
                     stat.duration_nsec
                 )
+        print(tabulate(table, headers=table_headers))
+        print("\n")
 
     @set_ev_cls(event.EventPortAdd)
     def _port_add(self, ev):
