@@ -27,6 +27,7 @@ import networkx as nx
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from ryu.app import simple_switch_13
+from ryu.app.wsgi import ControllerBase
 from ryu.controller import ofp_event
 from ryu.controller.handler import MAIN_DISPATCHER, DEAD_DISPATCHER
 from ryu.controller.handler import set_ev_cls
@@ -34,10 +35,11 @@ from ryu.lib import hub
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
 from tabulate import tabulate
+
 from arima import ARIMA
 
 # Monitor interval in seconds
-Interval = 1
+Interval = 10
 MongoURL = "127.0.0.1"
 # ConnectedSW = {"0000c699ecb9ea46": "0000aae305428d4a"}
 # Switches = ["0000c699ecb9ea46", "0000aae305428d4a"]
@@ -55,11 +57,11 @@ class Stat:
 PrevStats = defaultdict(lambda: defaultdict(Stat))
 
 
-class SimpleMonitor13(simple_switch_13.SimpleSwitch13):
+class SABRMonitorController(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_4.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
-        super(SimpleMonitor13, self).__init__(*args, **kwargs)
+        super(SABRMonitorController, self).__init__(*args, **kwargs)
         self.datapaths = {}
         self.monitor_thread = hub.spawn(self._monitor)
         self.topo_raw_switches = []

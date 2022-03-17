@@ -1,12 +1,22 @@
+from bson import json_util
 from flask import Flask
 from flask import request
+from flask_pymongo import PyMongo
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/opencdn"
+mongo = PyMongo(app)
 
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+
+@app.route("/dpid/<dpid>/port/<int:portno>")
+def get_port(dpid, portno):
+    port = mongo.db.portinfo.find({"dpid": dpid, "portno": portno}).limit(1)
+    return json_util.dumps(port[0])
 
 
 @app.route("/mpd/<name>")
