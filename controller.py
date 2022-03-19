@@ -21,7 +21,7 @@ from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
 from pprint import pprint
-
+from pymongo import DESCENDING
 import matplotlib.pyplot as plt
 import networkx as nx
 from bson import json_util
@@ -269,6 +269,14 @@ class SABRController(ControllerBase):
         dpid = "%016x" % dpid_lib.str_to_dpid(kwargs["dpid"])
         portno = int(kwargs["portno"])
         port = self.table_port_info.find({"dpid": dpid, "portno": portno}).limit(1)
+        return self.response(json_util.dumps(port[0]))
+
+    @route(route_name, "/dpid/{dpid}/portstat/{portno}", methods="GET",
+           requirements={"dpid": dpid_lib.DPID_PATTERN, "portno": r"\d+"})
+    def get_port_stat(self, req, **kwargs):
+        dpid = "%0x" % dpid_lib.str_to_dpid(kwargs["dpid"])
+        portno = int(kwargs["portno"])
+        port = self.table_port_monitor.find({"dpid": dpid, "portno": portno}).sort([("_id", DESCENDING)]).limit(1)
         return self.response(json_util.dumps(port[0]))
 
     @route(route_name, "/mpd/{name}", methods="GET")
