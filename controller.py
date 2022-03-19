@@ -84,11 +84,11 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         datapath = ev.datapath
         if ev.state == MAIN_DISPATCHER:
             if datapath.id not in self.datapaths:
-                self.logger.debug('register datapath: %016x', datapath.id)
+                self.logger.debug('register datapath: %0x', datapath.id)
                 self.datapaths[datapath.id] = datapath
         elif ev.state == DEAD_DISPATCHER:
             if datapath.id in self.datapaths:
-                self.logger.debug('unregister datapath: %016x', datapath.id)
+                self.logger.debug('unregister datapath: %0x', datapath.id)
                 del self.datapaths[datapath.id]
 
     def _monitor(self):
@@ -98,7 +98,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
             hub.sleep(Interval)
 
     def _request_stats(self, datapath):
-        self.logger.debug('send stats request: %016x', datapath.id)
+        self.logger.debug('send stats request: %0x', datapath.id)
         ofproto = datapath.ofproto
         parser = datapath.ofproto_parser
 
@@ -113,7 +113,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     @set_ev_cls(ofp_event.EventOFPPortStatsReply, MAIN_DISPATCHER)
     def _port_stats_reply_handler(self, ev):
         body = ev.msg.body
-        dpid = "%016x" % ev.msg.datapath.id
+        dpid = "%0x" % ev.msg.datapath.id
 
         table_headers = ["datapath", "port",
                          "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error", "rx-bw arima Mbit/sec",
@@ -141,15 +141,15 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
 
                 rx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
-                        "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
-                        "RXpackets": "%8d" % stat.rx_packets, "RXbytes": "%8d" % stat.rx_bytes,
-                        "RXerrors": "%8d" % stat.rx_errors, "RXbandwidth": cur_rx_throughput,
+                        "dpid": "%0x" % ev.msg.datapath.id, "portno": stat.port_no,
+                        "RXpackets": stat.rx_packets, "RXbytes": stat.rx_bytes,
+                        "RXerrors": stat.rx_errors, "RXbandwidth": cur_rx_throughput,
                         "RXbandwidth_arima": rx_bw_arima,
-                        "TXpackets": "%8d" % stat.tx_packets, "TXbytes": "%8d" % stat.tx_bytes,
-                        "TXerrors": "%8d" % stat.tx_errors, "TXbandwidth": cur_tx_throughput}
+                        "TXpackets": stat.tx_packets, "TXbytes": stat.tx_bytes,
+                        "TXerrors": stat.tx_errors, "TXbandwidth": cur_tx_throughput}
                 self.table_port_monitor.insert_one(post)
                 table.append(["%0x" % ev.msg.datapath.id,
-                              "%x" % stat.port_no,
+                              stat.port_no,
                               stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors, rx_bw_arima,
                               stat.tx_packets, stat.tx_bytes, cur_tx_throughput, stat.tx_errors
                               ])
@@ -174,7 +174,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     @set_ev_cls(event.EventPortAdd)
     def _port_add(self, ev):
         print("EventPortAdd")
-        post = {"dpid": "%016x" % ev.port.dpid,
+        post = {"dpid": "%0x" % ev.port.dpid,
                 "portno": ev.port.port_no,
                 "hwaddr": ev.port.hw_addr,
                 "name": ev.port.name.decode("utf-8")}
@@ -184,7 +184,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     @set_ev_cls(event.EventPortDelete)
     def _port_delete(self, ev):
         print("EventPortDelete")
-        post = {"dpid": "%016x" % ev.port.dpid,
+        post = {"dpid": "%0x" % ev.port.dpid,
                 "portno": ev.port.port_no,
                 "hwaddr": ev.port.hw_addr,
                 "name": ev.port.name.decode("utf-8")}
@@ -193,10 +193,10 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
 
     @set_ev_cls(event.EventSwitchEnter)
     def handler_switch_enter(self, ev):
-        dpid = str("%016x" % ev.switch.dp.id)
+        dpid = str("%0x" % ev.switch.dp.id)
         self.topo.add_node(dpid)
         for port in ev.switch.ports:
-            post = {"dpid": "%016x" % port.dpid,
+            post = {"dpid": "%0x" % port.dpid,
                     "portno": port.port_no,
                     "hwaddr": port.hw_addr,
                     "name": port.name.decode("utf-8")}
@@ -267,7 +267,7 @@ class SABRController(ControllerBase):
     @route(route_name, "/dpid/{dpid}/port/{portno}", methods="GET",
            requirements={"dpid": dpid_lib.DPID_PATTERN, "portno": r"\d+"})
     def get_port(self, req, **kwargs):
-        dpid = "%016x" % dpid_lib.str_to_dpid(kwargs["dpid"])
+        dpid = "%0x" % dpid_lib.str_to_dpid(kwargs["dpid"])
         portno = int(kwargs["portno"])
         port = self.table_port_info.find({"dpid": dpid, "portno": portno}).limit(1)
         return self.response(json_util.dumps(port[0]))
