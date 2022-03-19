@@ -2,9 +2,10 @@ from bson import json_util
 from flask import Flask
 from flask import request
 from flask_pymongo import PyMongo
+from config import MongoURI
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/opencdn"
+app.config["MONGO_URI"] = "{}/opencdn".format(MongoURI)
 mongo = PyMongo(app)
 
 

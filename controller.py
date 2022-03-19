@@ -27,7 +27,6 @@ import networkx as nx
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from ryu.app import simple_switch_13
-from ryu.app.wsgi import ControllerBase
 from ryu.controller import ofp_event
 from ryu.controller.handler import MAIN_DISPATCHER, DEAD_DISPATCHER
 from ryu.controller.handler import set_ev_cls
@@ -37,13 +36,7 @@ from ryu.topology import event
 from tabulate import tabulate
 
 from arima import ARIMA
-
-# Monitor interval in seconds
-Interval = 10
-MongoURL = "127.0.0.1"
-# ConnectedSW = {"0000c699ecb9ea46": "0000aae305428d4a"}
-# Switches = ["0000c699ecb9ea46", "0000aae305428d4a"]
-SameLink = {"02:92:b4:89:d6:8f": "02:2a:41:1e:70:d0"}
+from config import Interval, MongoURI, SameLink
 
 
 @dataclass
@@ -68,12 +61,12 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
         self.topo_raw_links = []
         self.topo = nx.Graph()
         try:
-            self.mongo_client = MongoClient(MongoURL)
+            self.mongo_client = MongoClient(MongoURI)
             print("Connected to MongoDB")
             self.db = self.mongo_client.opencdn
             self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
-            self.ARIMA = ARIMA(MongoURL=MongoURL)
+            self.ARIMA = ARIMA(MongoURL=MongoURI)
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
             exit(1)
@@ -160,7 +153,7 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
                 )
                 hwaddr = self.get_hwaddr_from_portno(dpid, stat.port_no)
 
-                if not (hwaddr in SameLink.keys() or hwaddr in SameLink.values()):
+                if (not (hwaddr in SameLink.keys() or hwaddr in SameLink.values())) and hwaddr != "":
                     self.topo[dpid][hwaddr]["weight"] = cur_tx_throughput
                     self.draw_topo()
         print(tabulate(table, headers=table_headers))
@@ -168,7 +161,9 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
 
     def get_hwaddr_from_portno(self, dpid, port_no):
         res = self.table_port_info.find({"dpid": dpid, "portno": port_no}).limit(1)
-        return res[0]["hwaddr"]
+        if len(res) == 1:
+            return res[0]["hwaddr"]
+        return ""
 
     @set_ev_cls(event.EventPortAdd)
     def _port_add(self, ev):
