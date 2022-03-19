@@ -63,6 +63,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         super(SABRMonitor, self).__init__(*args, **kwargs)
         wsgi = kwargs['wsgi']
         wsgi.register(SABRController, {rest_instance_name: self})
+        self.monitor_thread = hub.spawn(self._monitor)
         self.datapaths = {}
         self.topo_raw_switches = []
         self.topo_raw_links = []
