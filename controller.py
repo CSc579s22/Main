@@ -24,12 +24,15 @@ from pprint import pprint
 
 import matplotlib.pyplot as plt
 import networkx as nx
+from bson import json_util
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from ryu.app import simple_switch_13
+from ryu.app.wsgi import ControllerBase, WSGIApplication, route, Response
 from ryu.controller import ofp_event
 from ryu.controller.handler import MAIN_DISPATCHER, DEAD_DISPATCHER
 from ryu.controller.handler import set_ev_cls
+from ryu.lib import dpid as dpid_lib
 from ryu.lib import hub
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
@@ -47,16 +50,20 @@ class Stat:
     prev_duration_nsec: int = 0
 
 
-PrevStats = defaultdict(lambda: defaultdict(Stat))
+prev_stats = defaultdict(lambda: defaultdict(Stat))
+rest_instance_name = "sabr_monitor"
+route_name = "sabr"
 
 
-class SABRMonitorController(simple_switch_13.SimpleSwitch13):
+class SABRMonitor(simple_switch_13.SimpleSwitch13):
     OFP_VERSIONS = [ofproto_v1_4.OFP_VERSION]
+    _CONTEXTS = {'wsgi': WSGIApplication}
 
     def __init__(self, *args, **kwargs):
-        super(SABRMonitorController, self).__init__(*args, **kwargs)
+        super(SABRMonitor, self).__init__(*args, **kwargs)
+        wsgi = kwargs['wsgi']
+        wsgi.register(SABRController, {rest_instance_name: self})
         self.datapaths = {}
-        self.monitor_thread = hub.spawn(self._monitor)
         self.topo_raw_switches = []
         self.topo_raw_links = []
         self.topo = nx.Graph()
@@ -114,7 +121,7 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
         for stat in sorted(body, key=attrgetter('port_no')):
             # print(vars(stat))
             if stat.port_no != 0xfffffffe:
-                prev_stat = PrevStats[dpid][stat.port_no]
+                prev_stat = prev_stats[dpid][stat.port_no]
 
                 delta_rx_bytes_count = stat.rx_bytes - prev_stat.prev_rx_bytes_count
                 delta_tx_bytes_count = stat.tx_bytes - prev_stat.prev_tx_bytes_count
@@ -145,7 +152,7 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
                               stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors, rx_bw_arima,
                               stat.tx_packets, stat.tx_bytes, cur_tx_throughput, stat.tx_errors
                               ])
-                PrevStats[dpid][stat.port_no] = Stat(
+                prev_stats[dpid][stat.port_no] = Stat(
                     stat.rx_bytes,
                     stat.tx_bytes,
                     stat.duration_sec,
@@ -161,9 +168,7 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
 
     def get_hwaddr_from_portno(self, dpid, port_no):
         res = self.table_port_info.find({"dpid": dpid, "portno": port_no}).limit(1)
-        if len(res) == 1:
-            return res[0]["hwaddr"]
-        return ""
+        return res[0]["hwaddr"]
 
     @set_ev_cls(event.EventPortAdd)
     def _port_add(self, ev):
@@ -234,3 +239,45 @@ class SABRMonitorController(simple_switch_13.SimpleSwitch13):
         # plt.show()
         plt.savefig("topo/topo-%s.png" % datetime.utcnow())
         plt.close()
+
+
+class SABRController(ControllerBase):
+    def __init__(self, req, link, data, **config):
+        super(SABRController, self).__init__(req, link, data, **config)
+        self.simple_switch_app = data[rest_instance_name]
+        try:
+            self.mongo_client = MongoClient(MongoURI)
+            print("Connected to MongoDB")
+            self.db = self.mongo_client.opencdn
+            self.table_port_monitor = self.db.portmonitor
+            self.table_port_info = self.db.portinfo
+            self.ARIMA = ARIMA(MongoURL=MongoURI)
+        except ConnectionFailure as e:
+            print("MongoDB connection failed: %s" % e)
+            exit(1)
+
+    def response(self, text):
+        return Response(content_type="application", text=text)
+
+    @route(route_name, "/hello", methods="GET")
+    def hello(self, req, **kwargs):
+        return self.response("hello")
+
+    @route(route_name, "/dpid/{dpid}/port/{portno}", methods="GET",
+           requirements={"dpid": dpid_lib.DPID_PATTERN, "portno": r"\d+"})
+    def get_port(self, req, **kwargs):
+        dpid = "%016x" % dpid_lib.str_to_dpid(kwargs["dpid"])
+        portno = int(kwargs["portno"])
+        port = self.table_port_info.find({"dpid": dpid, "portno": portno}).limit(1)
+        return self.response(json_util.dumps(port[0]))
+
+    @route(route_name, "/mpd/{name}", methods="GET")
+    def get_mpd(self, req, **kwargs):
+        name = kwargs["name"]
+        return self.response("mpd: " + name)
+
+    @route(route_name, "/nearest_cache/{ip}")
+    def get_nearest_cache_server(self, req, **kwargs):
+        ip = kwargs["ip"]
+        # TODO: verify ip
+        return self.response("nearest cache server for: " + ip)
