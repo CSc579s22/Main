@@ -33,6 +33,8 @@ class ARIMA:
         for v in result:
             sum_arima += v
         avg_arima = sum_arima / len(result)
+        if avg_arima < 0:
+            avg_arima = 0
         return avg_arima
 
 
