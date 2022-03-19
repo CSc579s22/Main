@@ -22,9 +22,9 @@ class ARIMA:
                 sort([("_id", pymongo.DESCENDING)]).limit(10):
             # print("res: ", res)
             arima_in.append(res["RXbandwidth"])
-        arima_in.reverse()
         if len(arima_in) == 0:
-            return 0
+            return 0.0
+        arima_in.reverse()
         model = pm.auto_arima(arima_in, seasonal=True)
 
         # make your forecasts
