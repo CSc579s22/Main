@@ -1,5 +1,5 @@
 # Open vSwitch port status monitoring interval in seconds
-Interval = 10
+Interval = 1
 # MongoDB URI
 MongoURI = "mongodb://127.0.0.1:27017/"
 

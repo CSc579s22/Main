@@ -20,12 +20,12 @@ class ARIMA:
         arima_in = []
         for res in self.table_port_monitor.find({"dpid": dpid, "portno": portno}). \
                 sort([("_id", pymongo.DESCENDING)]).limit(10):
-            # print("res: ", res)
+            # print("res: ", res)x
             arima_in.append(res["RXbandwidth"])
-        if len(arima_in) == 0:
+        if len(arima_in) < 10:
             return 0.0
         arima_in.reverse()
-        model = pm.auto_arima(arima_in, seasonal=True)
+        model = pm.auto_arima(arima_in)
 
         # make your forecasts
         result = model.predict(5)
