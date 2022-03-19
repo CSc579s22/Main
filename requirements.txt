@@ -1,0 +1,6 @@
+ryu==4.34
+pmdarima==1.8.5
+tabulate==0.8.9
+pymongo==4.0.2
+networkx==2.7.1
+matplotlib==3.5.1
