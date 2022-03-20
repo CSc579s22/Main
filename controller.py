@@ -21,10 +21,11 @@ from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
 from pprint import pprint
-from pymongo import DESCENDING
+
 import matplotlib.pyplot as plt
 import networkx as nx
 from bson import json_util
+from pymongo import DESCENDING
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from ryu.app import simple_switch_13
@@ -114,7 +115,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     def _port_stats_reply_handler(self, ev):
         body = ev.msg.body
         dpid = "%016x" % ev.msg.datapath.id
-
+        if dpid != "0000aae305428d4a":
+            return
         table_headers = ["datapath", "port",
                          "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error", "rx-bw arima Mbit/sec",
                          "tx-pkts", "tx-bytes", "tx-bw Mbit/sec", "tx-error"]
@@ -139,7 +141,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     cur_tx_throughput = delta_tx_bytes_count / (
                                 delta_duration_sec + (delta_duration_nsec / 1000000000.0)) * 8.0 / 1000000
 
-                rx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
+                rx_bw_arima = self.ARIMA.predict_avg(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
                         "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
                         "RXpackets": stat.rx_packets, "RXbytes": stat.rx_bytes,

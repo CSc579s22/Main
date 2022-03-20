@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta
+
+import pmdarima as pm
 import pymongo
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
-import pmdarima as pm
 
 
 class ARIMA:
@@ -25,7 +27,7 @@ class ARIMA:
         if len(arima_in) < 10:
             return 0.0
         arima_in.reverse()
-        model = pm.auto_arima(arima_in)
+        model = pm.auto_arima(pm.c(arima_in))
 
         # make your forecasts
         result = model.predict(5)
@@ -33,6 +35,19 @@ class ARIMA:
         for v in result:
             sum_arima += v
         avg_arima = sum_arima / len(result)
+        if avg_arima < 0:
+            avg_arima = 0
+        return avg_arima
+
+    def predict_avg(self, dpid, portno):
+        arima_in = []
+        for res in self.table_port_monitor.find({"dpid": dpid, "portno": portno,
+                                                 "date": {"$gte": datetime.utcnow() - timedelta(seconds=10)}}). \
+                sort([("_id", pymongo.DESCENDING)]):
+            arima_in.append(res["RXbandwidth"])
+        if len(arima_in) == 0:
+            return 0.0
+        avg_arima = sum(arima_in) / len(arima_in)
         if avg_arima < 0:
             avg_arima = 0
         return avg_arima
