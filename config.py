@@ -95,6 +95,12 @@ NodeList = [
     },
 ]
 
+AvailableMPD = ["BigBuckBunny"]
+
+
+def get_client_list():
+    return [node["ip"] for node in NodeList]
+
 
 def get_cache_list():
     cache_server = []

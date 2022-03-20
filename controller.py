@@ -43,7 +43,7 @@ from tabulate import tabulate
 
 from arima import ARIMA
 from config import Interval, MongoURI
-from config import NodeList
+from config import NodeList, AvailableMPD, get_client_list
 from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
@@ -284,40 +284,29 @@ class SABRController(ControllerBase):
         port = self.table_port_monitor.find({"dpid": dpid, "portno": portno}).sort([("_id", DESCENDING)]).limit(1)
         return self.response(json_util.dumps(port[0]))
 
-    @route(route_name, "/mpd/{name}", methods="GET")
+    @route(route_name, "/mpd/{name}/ip/{client_ip}", methods="GET")
     def get_mpd(self, req, **kwargs):
         name = kwargs["name"]
-        return self.response("mpd: " + name)
+        client_ip = kwargs["client_ip"]
+        if client_ip not in get_client_list():
+            return self.response(json.dumps({
+                "error": "client %s is not registered in SABR" % client_ip
+            }))
+        if name not in AvailableMPD:
+            return self.response(json.dumps({
+                "error": "%s is not available" % name
+            }))
+        cache = self.nearest_cache_server(client_ip)
+        resp = {
+            "dash_mpd_url": "http://%s/%s/mpd/%s_2s_mod1.mpd" % (cache["ip"], name, name)
+        }
+        return self.response(json.dumps(resp))
 
-    # @route(route_name, "/nearest_cache/{hwaddr}")
-    # def get_nearest_cache_server_by_hwaddr(self, req, **kwargs):
-    #     hwaddr = kwargs["hwaddr"]
-    #     # TODO: verify hwaddr/mac address
-    #     topo = self.table_topo_info.find_one({"id": 1})
-    #     print(topo)
-    #     data = json.loads(topo["info"])
-    #     self.topo = json_graph.node_link_graph(data)
-    #     hops = 1000
-    #     path = []
-    #     nearest = ""
-    #     for cache in get_cache_list():
-    #         path = nx.shortest_paths.shortest_path(self.topo, cache, hwaddr)
-    #         print("current path: ", path)
-    #         print("hops: ", len(path))
-    #         if len(path) < hops:
-    #             hops = len(path)
-    #             nearest = cache
-    #     return self.response("nearest cache server for: " + nearest)
-
-    @route(route_name, "/nearest_cache/{ip}")
-    def get_nearest_cache_server(self, req, **kwargs):
-        ip = kwargs["ip"]
+    def nearest_cache_server(self, ip):
         port_name = ""
-
         for node in NodeList:
             if node["ip"] == ip:
                 port_name = node["name"]
-        # TODO: verify ip
         topo = self.table_topo_info.find_one({"id": 1})
         data = json.loads(topo["info"])
         self.topo = json_graph.node_link_graph(data)
@@ -331,5 +320,15 @@ class SABRController(ControllerBase):
             if len(path) < hops:
                 hops = len(path)
                 nearest = cache
+        return nearest
 
-        return self.response("nearest cache server for %s is [%s:%s]" % (ip, nearest["name"], nearest["ip"]))
+    @route(route_name, "/nearest_cache/{ip}")
+    def get_nearest_cache_server(self, req, **kwargs):
+        ip = kwargs["ip"]
+        if ip not in get_client_list():
+            return self.response(json.dumps({
+                "error": "client %s is not registered in SABR" % ip
+            }))
+        node = self.nearest_cache_server(ip)
+
+        return self.response("nearest cache server for %s is [%s:%s]" % (ip, node["name"], node["ip"]))
