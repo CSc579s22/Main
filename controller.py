@@ -15,6 +15,7 @@
 
 # Modified from ryu/app/simple_monitor_13.py
 # https://github.com/faucetsdn/ryu/blob/master/ryu/app/simple_monitor_13.py
+import json
 from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
@@ -25,6 +26,7 @@ from pprint import pprint
 import matplotlib.pyplot as plt
 import networkx as nx
 from bson import json_util
+from networkx.readwrite import json_graph
 from pymongo import DESCENDING
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
@@ -40,7 +42,10 @@ from ryu.topology import event
 from tabulate import tabulate
 
 from arima import ARIMA
-from config import Interval, MongoURI, SameLink
+from config import Interval, MongoURI
+from config import NodeList
+from config import Switch, ConnectedSwitchPort
+from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
 
 @dataclass
@@ -75,6 +80,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
             self.db = self.mongo_client.opencdn
             self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
+            self.table_topo_info = self.db.topoinfo
             self.ARIMA = ARIMA(MongoURL=MongoURI)
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
@@ -115,8 +121,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     def _port_stats_reply_handler(self, ev):
         body = ev.msg.body
         dpid = "%016x" % ev.msg.datapath.id
-        if dpid != "0000aae305428d4a":
-            return
+        dpid_name = dpid_to_name(dpid)
+
         table_headers = ["datapath", "port",
                          "rx-pkts", "rx-bytes", "rx-bw Mbit/sec", "rx-error", "rx-bw arima Mbit/sec",
                          "tx-pkts", "tx-bytes", "tx-bw Mbit/sec", "tx-error"]
@@ -163,8 +169,9 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 )
                 hwaddr = self.get_hwaddr_from_portno(dpid, stat.port_no)
 
-                if (not (hwaddr in SameLink.keys() or hwaddr in SameLink.values())) and hwaddr != "":
-                    self.topo[dpid][hwaddr]["weight"] = cur_tx_throughput
+                if (not (hwaddr in ConnectedSwitchPort.keys() or hwaddr in ConnectedSwitchPort.values())) and hwaddr != "":
+                    node_name = port_addr_to_node_name(hwaddr)
+                    self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima, 2)
                     self.draw_topo()
         print(tabulate(table, headers=table_headers))
         print("\n")
@@ -196,7 +203,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
     @set_ev_cls(event.EventSwitchEnter)
     def handler_switch_enter(self, ev):
         dpid = str("%016x" % ev.switch.dp.id)
-        self.topo.add_node(dpid)
+        sw_name = dpid_to_name(dpid)
+        self.topo.add_node(sw_name)
         for port in ev.switch.ports:
             post = {"dpid": "%016x" % port.dpid,
                     "portno": port.port_no,
@@ -204,34 +212,44 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     "name": port.name.decode("utf-8")}
 
             self.table_port_info.update_one({"dpid": post["dpid"], "hwaddr": post["hwaddr"]}, {"$set": post}, upsert=True)
-            self.topo.add_node(port.hw_addr)
-            self.topo.add_edge(dpid, port.hw_addr)
+            node_name = port_addr_to_node_name(port.hw_addr)
+            self.topo.add_node(node_name)
+            self.topo.add_edge(sw_name, node_name)
 
-        print("Update switch info finished, dpid: ", dpid)
+        print("Update switch info finished, dpid: %s, switch: %s" % (dpid, sw_name))
         self.draw_topo()
+
+    def fix_topo(self):
+        pass
+        # for k in SameLink.keys():
+        #     if self.topo.has_node(SameLink[k]):
+        #         nx.contracted_nodes(self.topo, k, SameLink[k], self_loops=False, copy=False)
+        #
+        # nodes_to_remove = [n for n in self.topo.nodes if len(list(self.topo.neighbors(n))) == 2]
+        # # For each of those nodes
+        # for node in nodes_to_remove:
+        #     # We add an edge between neighbors (len == 2 so it is correct)
+        #     self.topo.add_edge(*self.topo.neighbors(node))
+        #     # And delete the node
+        #     self.topo.remove_node(node)
+        # self.topo = self.topo
+
+    def save_topo(self):
+        self.fix_topo()
+        post = {"id": 1, "info": json.dumps(json_graph.node_link_data(self.topo))}
+        self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
 
     def draw_topo(self):
         Path("topo").mkdir(exist_ok=True)
-
-        for k in SameLink.keys():
-            if self.topo.has_node(SameLink[k]):
-                nx.contracted_nodes(self.topo, k, SameLink[k], self_loops=False, copy=False)
-
-        nodes_to_remove = [n for n in self.topo.nodes if len(list(self.topo.neighbors(n))) == 2]
-
-        # For each of those nodes
-        for node in nodes_to_remove:
-            # We add an edge between neighbors (len == 2 so it is correct)
-            self.topo.add_edge(*self.topo.neighbors(node))
-            # And delete the node
-            self.topo.remove_node(node)
+        self.save_topo()
 
         ports = self.table_port_info.find()
-        dpids = [port["dpid"] for port in ports]
+        # dpids = [port["dpid"] for port in ports]
+        switch_names = [sw["name"] for sw in Switch]
         fixed_pos = {}
         count = 0
         for node in self.topo.nodes:
-            if node in dpids:
+            if node in switch_names:
                 fixed_pos[node] = (5, count*10)
                 count += 1
 
@@ -254,7 +272,9 @@ class SABRController(ControllerBase):
             self.db = self.mongo_client.opencdn
             self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
+            self.table_topo_info = self.db.topoinfo
             self.ARIMA = ARIMA(MongoURL=MongoURI)
+            self.topo = nx.Graph()
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
             exit(1)
@@ -287,8 +307,49 @@ class SABRController(ControllerBase):
         name = kwargs["name"]
         return self.response("mpd: " + name)
 
+    @route(route_name, "/nearest_cache/{hwaddr}")
+    def get_nearest_cache_server_by_hwaddr(self, req, **kwargs):
+        hwaddr = kwargs["hwaddr"]
+        # TODO: verify hwaddr/mac address
+        topo = self.table_topo_info.find_one({"id": 1})
+        print(topo)
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
+        hops = 1000
+        path = []
+        nearest = ""
+        for cache in self.get_cache_list():
+            path = nx.shortest_paths.shortest_path(self.topo, cache, hwaddr)
+            print("current path: ", path)
+            print("hops: ", len(path))
+            if len(path) < hops:
+                hops = len(path)
+                nearest = cache
+        return self.response("nearest cache server for: " + nearest)
+
     @route(route_name, "/nearest_cache/{ip}")
     def get_nearest_cache_server(self, req, **kwargs):
         ip = kwargs["ip"]
+        port_name = ""
+
+        for node in NodeList:
+            if node["ip"] == ip:
+                port_name = node["name"]
         # TODO: verify ip
-        return self.response("nearest cache server for: " + ip)
+        topo = self.table_topo_info.find_one({"id": 1})
+        print(topo)
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
+        hops = 1000
+        path = []
+        nearest = {}
+
+        for cache in get_cache_list():
+            path = nx.shortest_paths.shortest_path(self.topo, cache["name"], port_name)
+            print("current path: ", path)
+            print("hops: ", len(path))
+            if len(path) < hops:
+                hops = len(path)
+                nearest = cache
+
+        return self.response("nearest cache server for %s is [%s:%s]" % (ip, nearest["name"], nearest["ip"]))
