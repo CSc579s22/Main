@@ -219,23 +219,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         print("Update switch info finished, dpid: %s, switch: %s" % (dpid, sw_name))
         self.draw_topo()
 
-    def fix_topo(self):
-        pass
-        # for k in SameLink.keys():
-        #     if self.topo.has_node(SameLink[k]):
-        #         nx.contracted_nodes(self.topo, k, SameLink[k], self_loops=False, copy=False)
-        #
-        # nodes_to_remove = [n for n in self.topo.nodes if len(list(self.topo.neighbors(n))) == 2]
-        # # For each of those nodes
-        # for node in nodes_to_remove:
-        #     # We add an edge between neighbors (len == 2 so it is correct)
-        #     self.topo.add_edge(*self.topo.neighbors(node))
-        #     # And delete the node
-        #     self.topo.remove_node(node)
-        # self.topo = self.topo
-
     def save_topo(self):
-        self.fix_topo()
         post = {"id": 1, "info": json.dumps(json_graph.node_link_data(self.topo))}
         self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
 
@@ -243,8 +227,6 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         Path("topo").mkdir(exist_ok=True)
         self.save_topo()
 
-        ports = self.table_port_info.find()
-        # dpids = [port["dpid"] for port in ports]
         switch_names = [sw["name"] for sw in Switch]
         fixed_pos = {}
         count = 0
@@ -307,25 +289,25 @@ class SABRController(ControllerBase):
         name = kwargs["name"]
         return self.response("mpd: " + name)
 
-    @route(route_name, "/nearest_cache/{hwaddr}")
-    def get_nearest_cache_server_by_hwaddr(self, req, **kwargs):
-        hwaddr = kwargs["hwaddr"]
-        # TODO: verify hwaddr/mac address
-        topo = self.table_topo_info.find_one({"id": 1})
-        print(topo)
-        data = json.loads(topo["info"])
-        self.topo = json_graph.node_link_graph(data)
-        hops = 1000
-        path = []
-        nearest = ""
-        for cache in self.get_cache_list():
-            path = nx.shortest_paths.shortest_path(self.topo, cache, hwaddr)
-            print("current path: ", path)
-            print("hops: ", len(path))
-            if len(path) < hops:
-                hops = len(path)
-                nearest = cache
-        return self.response("nearest cache server for: " + nearest)
+    # @route(route_name, "/nearest_cache/{hwaddr}")
+    # def get_nearest_cache_server_by_hwaddr(self, req, **kwargs):
+    #     hwaddr = kwargs["hwaddr"]
+    #     # TODO: verify hwaddr/mac address
+    #     topo = self.table_topo_info.find_one({"id": 1})
+    #     print(topo)
+    #     data = json.loads(topo["info"])
+    #     self.topo = json_graph.node_link_graph(data)
+    #     hops = 1000
+    #     path = []
+    #     nearest = ""
+    #     for cache in get_cache_list():
+    #         path = nx.shortest_paths.shortest_path(self.topo, cache, hwaddr)
+    #         print("current path: ", path)
+    #         print("hops: ", len(path))
+    #         if len(path) < hops:
+    #             hops = len(path)
+    #             nearest = cache
+    #     return self.response("nearest cache server for: " + nearest)
 
     @route(route_name, "/nearest_cache/{ip}")
     def get_nearest_cache_server(self, req, **kwargs):
@@ -337,11 +319,9 @@ class SABRController(ControllerBase):
                 port_name = node["name"]
         # TODO: verify ip
         topo = self.table_topo_info.find_one({"id": 1})
-        print(topo)
         data = json.loads(topo["info"])
         self.topo = json_graph.node_link_graph(data)
         hops = 1000
-        path = []
         nearest = {}
 
         for cache in get_cache_list():

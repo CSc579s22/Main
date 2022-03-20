@@ -117,8 +117,6 @@ def dpid_to_name(dpid):
 
 
 def port_addr_to_node_name(port_addr):
-    print("port_addr_to_node_name")
-    print(port_addr)
     for node in NodeList:
         if node["port"] == port_addr:
             return node["name"]
