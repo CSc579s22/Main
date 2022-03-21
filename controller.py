@@ -147,7 +147,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     cur_tx_throughput = delta_tx_bytes_count / (
                                 delta_duration_sec + (delta_duration_nsec / 1000000000.0)) * 8.0 / 1000000
 
-                rx_bw_arima = self.ARIMA.predict_avg(dpid, stat.port_no)
+                rx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
                         "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
                         "RXpackets": stat.rx_packets, "RXbytes": stat.rx_bytes,
@@ -224,24 +224,24 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
 
     def draw_topo(self):
-        Path("topo").mkdir(exist_ok=True)
         self.save_topo()
 
-        switch_names = [sw["name"] for sw in Switch]
-        fixed_pos = {}
-        count = 0
-        for node in self.topo.nodes:
-            if node in switch_names:
-                fixed_pos[node] = (5, count*10)
-                count += 1
-
-        pos = nx.spring_layout(self.topo, pos=fixed_pos, fixed=fixed_pos.keys())
-        nx.draw(self.topo, pos, with_labels=True)
-        labels = nx.get_edge_attributes(self.topo, "weight")
-        nx.draw_networkx_edge_labels(self.topo, pos, edge_labels=labels)
-        # plt.show()
-        plt.savefig("topo/topo-%s.png" % datetime.utcnow())
-        plt.close()
+        # Path("topo").mkdir(exist_ok=True)
+        # switch_names = [sw["name"] for sw in Switch]
+        # fixed_pos = {}
+        # count = 0
+        # for node in self.topo.nodes:
+        #     if node in switch_names:
+        #         fixed_pos[node] = (5, count*10)
+        #         count += 1
+        #
+        # pos = nx.spring_layout(self.topo, pos=fixed_pos, fixed=fixed_pos.keys())
+        # nx.draw(self.topo, pos, with_labels=True)
+        # labels = nx.get_edge_attributes(self.topo, "weight")
+        # nx.draw_networkx_edge_labels(self.topo, pos, edge_labels=labels)
+        # # plt.show()
+        # plt.savefig("topo/topo-%s.png" % datetime.utcnow())
+        # plt.close()
 
 
 class SABRController(ControllerBase):
@@ -298,7 +298,7 @@ class SABRController(ControllerBase):
             }))
         cache = self.nearest_cache_server(client_ip)
         resp = {
-            "dash_mpd_url": "http://%s/%s/mpd/%s_2s_mod1.mpd" % (cache["ip"], name, name)
+            "dash_mpd_url": "http://%s/%s/%s_2s_mod1.mpd" % (cache["ip"], name, name)
         }
         return self.response(json.dumps(resp))
 

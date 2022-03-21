@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import pmdarima as pm
 import pymongo
+import numpy as np
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
@@ -24,9 +25,13 @@ class ARIMA:
                 sort([("_id", pymongo.DESCENDING)]).limit(10):
             # print("res: ", res)x
             arima_in.append(res["RXbandwidth"])
-        if len(arima_in) < 10:
-            return 0.0
+
         arima_in.reverse()
+        if len(arima_in) == 0:
+            return 0.0
+        if len(arima_in) < 10 or np.var(arima_in) == 0:
+            return np.average(arima_in)
+
         model = pm.auto_arima(pm.c(arima_in))
 
         # make your forecasts
