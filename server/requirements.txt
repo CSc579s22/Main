@@ -4,3 +4,7 @@ tabulate==0.8.9
 pymongo==4.0.2
 networkx==2.7.1
 matplotlib==3.5.1
+numpy~=1.22.3
+six~=1.16.0
+sympy~=1.10.1
+python-ffmpeg-video-streaming=0.1.15
