@@ -217,7 +217,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
             self.table_port_info.update_one({"dpid": post["dpid"], "hwaddr": post["hwaddr"]}, {"$set": post}, upsert=True)
             node_name = port_addr_to_node_name(port.hw_addr)
             self.topo.add_node(node_name)
-            self.topo.add_edge(sw_name, node_name)
+            self.topo.add_edge(sw_name, node_name, weight=0)
 
         print("Update switch info finished, dpid: %s, switch: %s" % (dpid, sw_name))
         self.draw_topo()
@@ -233,10 +233,20 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         data = json.loads(topo["info"])
         self.topo = json_graph.node_link_graph(data)
 
-        cache_list = get_cache_list()
-        for node in NodeList:
-            dst = best_target_selection(self.topo, node["name"], cache_list)
-            best_cache_server_for_each_client[node["name"]] = dst
+        cache_list = [cache["name"] for cache in get_cache_list()]
+        client_list = [node["name"] for node in NodeList]
+
+        for node in client_list:
+            hops = MaxInt
+            nearest = ""
+            for cache in cache_list:
+                if node not in self.topo.nodes() or cache not in self.topo.nodes():
+                    continue
+                path = nx.shortest_paths.shortest_path(self.topo, node, cache)
+                if len(path) < hops:
+                    hops = len(path)
+                    nearest = cache
+            best_cache_server_for_each_client[node] = nearest
         print("===END initial cache server selection for each client===")
         print(best_cache_server_for_each_client)
 

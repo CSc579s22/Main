@@ -3,12 +3,16 @@ from config import MaxInt
 
 
 def best_target_selection(graph, source, targets):
-    print("===START best target selection===")
     paths = []
+    if source not in graph.nodes:
+        return ""
     for dst in targets:
+        if dst not in graph.nodes():
+            return ""
         path = nx.shortest_paths.shortest_path(graph, source, dst)
         paths.append(path)
 
+    print("===START best target selection for {}===".format(source))
     weights = []
     for path in paths:
         print("path: ", path)
@@ -22,7 +26,7 @@ def best_target_selection(graph, source, targets):
         weights.append({"path": path, "min_weight": min_weight})
 
     best_path = []
-    best_weight = 0
+    best_weight = -1
     for w in weights:
         if w["min_weight"] > best_weight:
             best_weight = w["min_weight"]
