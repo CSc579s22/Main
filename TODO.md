@@ -1,4 +1,5 @@
 Steps:
+
 + Clients join the network by "connecting the port to OVS switch"
 (manually configured on OVS switch)
 + Ryu controller monitors events from OVS switches, after it received
@@ -15,9 +16,10 @@ bandwidth, latency, cache hit/miss)
 
 
 TODO:
-[ ] use ARIMA to replace bandwidth estimation
-[ ] dispatch near cache servers by latency
-[ ] set link speed and latency to simulate network congestion
-[ ] calculate fairness on Ryu controller
-[ ] set port link speed/QoS based on fairness
-[ ] AStream is not compatible with current MPD file
+
+- [x] use ARIMA to replace bandwidth estimation
+- [ ] dispatch near cache servers by latency
+- [ ] set link speed and latency to simulate network congestion
+- [ ] calculate fairness on Ryu controller
+- [ ] set port link speed/QoS based on fairness
+- [ ] AStream is not compatible with current MPD file
