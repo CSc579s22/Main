@@ -40,6 +40,8 @@ from ryu.lib import hub
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
 from tabulate import tabulate
+from config import MaxInt
+from path import best_target_selection
 
 from arima import ARIMA
 from config import Interval, MongoURI
@@ -57,6 +59,7 @@ class Stat:
 
 
 prev_stats = defaultdict(lambda: defaultdict(Stat))
+best_cache_server_for_each_client = defaultdict()
 rest_instance_name = "sabr_monitor"
 route_name = "sabr"
 
@@ -218,10 +221,24 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
 
         print("Update switch info finished, dpid: %s, switch: %s" % (dpid, sw_name))
         self.draw_topo()
+        self.init_nearest_cache_server_list()
 
     def save_topo(self):
         post = {"id": 1, "info": json.dumps(json_graph.node_link_data(self.topo))}
         self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
+
+    def init_nearest_cache_server_list(self):
+        print("===START initial cache server selection for each client===")
+        topo = self.table_topo_info.find_one({"id": 1})
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
+
+        cache_list = get_cache_list()
+        for node in NodeList:
+            dst = best_target_selection(self.topo, node["name"], cache_list)
+            best_cache_server_for_each_client[node["name"]] = dst
+        print("===END initial cache server selection for each client===")
+        print(best_cache_server_for_each_client)
 
     def draw_topo(self):
         self.save_topo()
@@ -310,7 +327,7 @@ class SABRController(ControllerBase):
         topo = self.table_topo_info.find_one({"id": 1})
         data = json.loads(topo["info"])
         self.topo = json_graph.node_link_graph(data)
-        hops = 1000
+        hops = MaxInt
         nearest = {}
 
         for cache in get_cache_list():

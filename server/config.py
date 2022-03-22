@@ -1,7 +1,10 @@
+import sys
+
 # Open vSwitch port status monitoring interval in seconds
 Interval = 1
 # MongoDB URI
 MongoURI = "mongodb://127.0.0.1:27017/"
+MaxInt = sys.maxsize
 
 ConnectedSwitchPort = {
     "02:92:b4:89:d6:8f": "02:8f:66:ba:35:6c"
