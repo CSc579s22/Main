@@ -45,7 +45,7 @@ from path import best_target_selection
 
 from arima import ARIMA
 from config import Interval, MongoURI
-from config import NodeList, AvailableMPD, get_client_list
+from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name
 from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
@@ -162,7 +162,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     cur_tx_throughput = delta_tx_bytes_count / (
                                 delta_duration_sec + (delta_duration_nsec / 1000000000.0)) * 8.0 / 1000000
 
-                rx_bw_arima, tx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
+                rx_bw_arima, tx_bw_arima = self.ARIMA.predict_avg(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
                         "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
                         "RXpackets": stat.rx_packets, "RXbytes": stat.rx_bytes,
@@ -184,10 +184,14 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 )
                 hwaddr = self.get_hwaddr_from_portno(dpid, stat.port_no)
 
-                if (not (hwaddr in ConnectedSwitchPort.keys() or hwaddr in ConnectedSwitchPort.values())) and hwaddr != "":
-                    node_name = port_addr_to_node_name(hwaddr)
-                    self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima + tx_bw_arima, 3)
-                    self.draw_topo()
+                node_name = port_addr_to_node_name(hwaddr)
+                self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima + tx_bw_arima, 3)
+                self.draw_topo()
+                # if (not (hwaddr in ConnectedSwitchPort.keys() or hwaddr in ConnectedSwitchPort.values())) \
+                # and hwaddr != "":
+                #     node_name = port_addr_to_node_name(hwaddr)
+                #     self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima + tx_bw_arima, 3)
+                #     self.draw_topo()
         self.update_best_cache_server_for_each_client()
         print(tabulate(table, headers=table_headers))
         print("\n")
@@ -369,6 +373,6 @@ class SABRController(ControllerBase):
             return self.response(json.dumps({
                 "error": "client %s is not registered in SABR" % ip
             }))
-        node = self.nearest_cache_server(ip)
-
-        return self.response("nearest cache server for %s is [%s:%s]" % (ip, node["name"], node["ip"]))
+        # node = self.nearest_cache_server(ip)
+        name = best_cache_server_for_each_client[ip_to_node_name(ip)]
+        return self.response("nearest cache server for %s is [%s:%s]" % (ip, name, node_name_to_ip(name)))

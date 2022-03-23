@@ -49,35 +49,16 @@ class ARIMA:
         arima_rx.reverse()
         arima_tx.reverse()
         return self._predict(arima_rx), self._predict(arima_tx)
-        # if len(arima_rx) == 0:
-        #     return 0.0
-        # if len(arima_rx) < 10 or np.var(arima_rx) == 0:
-        #     return np.average(arima_rx)
-        #
-        # model_rx = pm.auto_arima(pm.c(arima_rx))
-        #
-        # # make your forecasts
-        # result = model_rx.predict(5)
-        # sum_arima = 0.0
-        # for v in result:
-        #     sum_arima += v
-        # avg_arima = sum_arima / len(result)
-        # if avg_arima < 0:
-        #     avg_arima = 0
-        # return avg_arima
 
     def predict_avg(self, dpid, portno):
-        arima_in = []
+        arima_rx = []
+        arima_tx = []
         for res in self.table_port_monitor.find({"dpid": dpid, "portno": portno,
                                                  "date": {"$gte": datetime.utcnow() - timedelta(seconds=10)}}). \
                 sort([("_id", pymongo.DESCENDING)]):
-            arima_in.append(res["RXbandwidth"])
-        if len(arima_in) == 0:
-            return 0.0
-        avg_arima = sum(arima_in) / len(arima_in)
-        if avg_arima < 0:
-            avg_arima = 0
-        return avg_arima
+            arima_rx.append(res["RXbandwidth"])
+            arima_tx.append(res["TXbandwidth"])
+        return np.average(arima_rx), np.average(arima_tx)
 
 
 if __name__ == "__main__":

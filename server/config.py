@@ -141,3 +141,15 @@ def port_addr_to_node_name(port_addr):
         for port in sw["ports"]:
             if port["hwaddr"] == sw_port:
                 return sw["name"]
+
+
+def node_name_to_ip(name):
+    for node in NodeList:
+        if node["name"] == name:
+            return node["ip"]
+
+
+def ip_to_node_name(ip):
+    for node in NodeList:
+        if node["ip"] == ip:
+            return node["name"]
