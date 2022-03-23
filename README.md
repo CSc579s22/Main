@@ -24,3 +24,4 @@ TODO:
 - [ ] calculate fairness on Ryu controller
 - [ ] set port link speed/QoS based on fairness
 - [ ] AStream is not compatible with current MPD file
+- [ ] Varnish cache: cache-hit/cache-miss
