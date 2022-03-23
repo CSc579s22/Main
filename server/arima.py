@@ -19,20 +19,13 @@ class ARIMA:
             print("MongoDB connection failed: %s" % e)
             exit(1)
 
-    def predict(self, dpid, portno):
-        arima_in = []
-        for res in self.table_port_monitor.find({"dpid": dpid, "portno": portno}). \
-                sort([("_id", pymongo.DESCENDING)]).limit(10):
-            # print("res: ", res)x
-            arima_in.append(res["RXbandwidth"])
-
-        arima_in.reverse()
-        if len(arima_in) == 0:
+    def _predict(self, input):
+        if len(input) == 0:
             return 0.0
-        if len(arima_in) < 10 or np.var(arima_in) == 0:
-            return np.average(arima_in)
+        if len(input) < 10 or np.var(input) == 0:
+            return np.average(input)
 
-        model = pm.auto_arima(pm.c(arima_in))
+        model = pm.auto_arima(pm.c(input))
 
         # make your forecasts
         result = model.predict(5)
@@ -43,6 +36,35 @@ class ARIMA:
         if avg_arima < 0:
             avg_arima = 0
         return avg_arima
+
+    def predict(self, dpid, portno):
+        arima_rx = []
+        arima_tx = []
+        for res in self.table_port_monitor.find({"dpid": dpid, "portno": portno}). \
+                sort([("_id", pymongo.DESCENDING)]).limit(10):
+            # print("res: ", res)x
+            arima_rx.append(res["RXbandwidth"])
+            arima_tx.append(res["TXbandwidth"])
+
+        arima_rx.reverse()
+        arima_tx.reverse()
+        return self._predict(arima_rx), self._predict(arima_tx)
+        # if len(arima_rx) == 0:
+        #     return 0.0
+        # if len(arima_rx) < 10 or np.var(arima_rx) == 0:
+        #     return np.average(arima_rx)
+        #
+        # model_rx = pm.auto_arima(pm.c(arima_rx))
+        #
+        # # make your forecasts
+        # result = model_rx.predict(5)
+        # sum_arima = 0.0
+        # for v in result:
+        #     sum_arima += v
+        # avg_arima = sum_arima / len(result)
+        # if avg_arima < 0:
+        #     avg_arima = 0
+        # return avg_arima
 
     def predict_avg(self, dpid, portno):
         arima_in = []

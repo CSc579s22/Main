@@ -107,6 +107,18 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 self._request_stats(dp)
             hub.sleep(Interval)
 
+    def update_best_cache_server_for_each_client(self):
+        topo = self.table_topo_info.find_one({"id": 1})
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
+
+        cache_list = [cache["name"] for cache in get_cache_list()]
+        client_list = [node["name"] for node in NodeList]
+
+        for node in client_list:
+            best_cache = best_target_selection(self.topo, node, cache_list)
+            best_cache_server_for_each_client[node] = best_cache
+
     def _request_stats(self, datapath):
         self.logger.debug('send stats request: %016x', datapath.id)
         ofproto = datapath.ofproto
@@ -150,7 +162,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     cur_tx_throughput = delta_tx_bytes_count / (
                                 delta_duration_sec + (delta_duration_nsec / 1000000000.0)) * 8.0 / 1000000
 
-                rx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
+                rx_bw_arima, tx_bw_arima = self.ARIMA.predict(dpid, stat.port_no)
                 post = {"date": datetime.utcnow(),
                         "dpid": "%016x" % ev.msg.datapath.id, "portno": stat.port_no,
                         "RXpackets": stat.rx_packets, "RXbytes": stat.rx_bytes,
@@ -174,8 +186,9 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
 
                 if (not (hwaddr in ConnectedSwitchPort.keys() or hwaddr in ConnectedSwitchPort.values())) and hwaddr != "":
                     node_name = port_addr_to_node_name(hwaddr)
-                    self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima, 2)
+                    self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima + tx_bw_arima, 3)
                     self.draw_topo()
+        self.update_best_cache_server_for_each_client()
         print(tabulate(table, headers=table_headers))
         print("\n")
 
