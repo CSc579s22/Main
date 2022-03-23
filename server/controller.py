@@ -45,7 +45,7 @@ from path import best_target_selection
 
 from arima import ARIMA
 from config import Interval, MongoURI
-from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name
+from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name, EnableSABR
 from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
@@ -192,7 +192,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 #     node_name = port_addr_to_node_name(hwaddr)
                 #     self.topo[dpid_name][node_name]["weight"] = round(rx_bw_arima + tx_bw_arima, 3)
                 #     self.draw_topo()
-        self.update_best_cache_server_for_each_client()
+        if EnableSABR:
+            self.update_best_cache_server_for_each_client()
         print(tabulate(table, headers=table_headers))
         print("\n")
 

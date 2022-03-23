@@ -6,6 +6,9 @@ Interval = 1
 MongoURI = "mongodb://127.0.0.1:27017/"
 MaxInt = sys.maxsize
 
+# Enable SABR cache server selection based on bandwidth estimation from SABR paper
+EnableSABR = True
+
 ConnectedSwitchPort = {
     "02:92:b4:89:d6:8f": "02:8f:66:ba:35:6c"
 }
