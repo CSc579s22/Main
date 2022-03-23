@@ -18,6 +18,7 @@ bandwidth, latency, cache hit/miss)
 TODO:
 
 - [x] use ARIMA to replace bandwidth estimation
+- [x] dynamically dispatch servers based on SABR bandwidth
 - [ ] dispatch near cache servers by latency
 - [ ] set link speed and latency to simulate network congestion
 - [ ] calculate fairness on Ryu controller
