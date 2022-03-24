@@ -20,6 +20,97 @@ docker build -t clarkzjw/sdncontroller:0.1 .
 ```bash
 docker-compose up -d
 ```
+
+`cd` into the `video` directory, upload all the `*.mpd` files into `video/BigBuckBunny` directory
+download corresponding videos
+```bash
+sudo wget -r --no-parent --reject "index.html*" http://ftp.itec.aau.at/datasets/DASHDataset2014/BigBuckBunny/2sec/
+```
+and move `2sec` directory below `video/BigBuckBunny` directory.
+
+The final directory structure looks like this
+```txt
+$ tree -L 3 videos/
+videos/
+├── BigBuckBunny
+│ ├── 2sec
+│ │ ├── BigBuckBunny_2s_onDemand_2014_05_09.mpd
+│ │ ├── BigBuckBunny_2s_simple_2014_05_09.mpd
+│ │ ├── bunny_1032682bps
+│ │ ├── bunny_1244778bps
+│ │ ├── bunny_131087bps
+│ │ ├── bunny_1546902bps
+│ │ ├── bunny_178351bps
+│ │ ├── bunny_2133691bps
+│ │ ├── bunny_221600bps
+│ │ ├── bunny_2484135bps
+│ │ ├── bunny_262537bps
+│ │ ├── bunny_3078587bps
+│ │ ├── bunny_334349bps
+│ │ ├── bunny_3526922bps
+│ │ ├── bunny_3840360bps
+│ │ ├── bunny_396126bps
+│ │ ├── bunny_4219897bps
+│ │ ├── bunny_45652bps
+│ │ ├── bunny_522286bps
+│ │ ├── bunny_595491bps
+│ │ ├── bunny_791182bps
+│ │ └── bunny_89283bps
+│ ├── BigBuckBunny_2s_mod10.mpd
+│ ├── BigBuckBunny_2s_mod11.mpd
+│ ├── BigBuckBunny_2s_mod12.mpd
+│ ├── BigBuckBunny_2s_mod13.mpd
+│ ├── BigBuckBunny_2s_mod14.mpd
+│ ├── BigBuckBunny_2s_mod15.mpd
+│ ├── BigBuckBunny_2s_mod16.mpd
+│ ├── BigBuckBunny_2s_mod17.mpd
+│ ├── BigBuckBunny_2s_mod18.mpd
+│ ├── BigBuckBunny_2s_mod19.mpd
+│ ├── BigBuckBunny_2s_mod1.mpd
+│ ├── BigBuckBunny_2s_mod20.mpd
+│ ├── BigBuckBunny_2s_mod21.mpd
+│ ├── BigBuckBunny_2s_mod22.mpd
+│ ├── BigBuckBunny_2s_mod23.mpd
+│ ├── BigBuckBunny_2s_mod24.mpd
+│ ├── BigBuckBunny_2s_mod25.mpd
+│ ├── BigBuckBunny_2s_mod26.mpd
+│ ├── BigBuckBunny_2s_mod27.mpd
+│ ├── BigBuckBunny_2s_mod28.mpd
+│ ├── BigBuckBunny_2s_mod29.mpd
+│ ├── BigBuckBunny_2s_mod2.mpd
+│ ├── BigBuckBunny_2s_mod30.mpd
+│ ├── BigBuckBunny_2s_mod31.mpd
+│ ├── BigBuckBunny_2s_mod32.mpd
+│ ├── BigBuckBunny_2s_mod33.mpd
+│ ├── BigBuckBunny_2s_mod34.mpd
+│ ├── BigBuckBunny_2s_mod35.mpd
+│ ├── BigBuckBunny_2s_mod36.mpd
+│ ├── BigBuckBunny_2s_mod37.mpd
+│ ├── BigBuckBunny_2s_mod38.mpd
+│ ├── BigBuckBunny_2s_mod39.mpd
+│ ├── BigBuckBunny_2s_mod3.mpd
+│ ├── BigBuckBunny_2s_mod40.mpd
+│ ├── BigBuckBunny_2s_mod41.mpd
+│ ├── BigBuckBunny_2s_mod42.mpd
+│ ├── BigBuckBunny_2s_mod43.mpd
+│ ├── BigBuckBunny_2s_mod44.mpd
+│ ├── BigBuckBunny_2s_mod45.mpd
+│ ├── BigBuckBunny_2s_mod46.mpd
+│ ├── BigBuckBunny_2s_mod47.mpd
+│ ├── BigBuckBunny_2s_mod48.mpd
+│ ├── BigBuckBunny_2s_mod49.mpd
+│ ├── BigBuckBunny_2s_mod4.mpd
+│ ├── BigBuckBunny_2s_mod50.mpd
+│ ├── BigBuckBunny_2s_mod5.mpd
+│ ├── BigBuckBunny_2s_mod6.mpd
+│ ├── BigBuckBunny_2s_mod7.mpd
+│ ├── BigBuckBunny_2s_mod8.mpd
+│ └── BigBuckBunny_2s_mod9.mpd
+└── index.html
+
+22 directories, 53 files
+```
+
 10. SSH login to switch nodes, set controller for each ovs bridge
 ```bash
 sudo ovs-vsctl set-controller <bridge name> tcp:<server node ip>:6633

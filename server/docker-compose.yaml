@@ -10,3 +10,9 @@ services:
     image: "mongo:5.0"
     volumes:
       - ./mongodb:/data/db
+  nginx:
+    image: "nginx"
+    ports:
+      - "80:80"
+    volumes:
+      - ./video:/usr/share/nginx/html
