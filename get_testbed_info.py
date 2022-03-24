@@ -219,17 +219,6 @@ def get_node_list():
 
 
 if __name__ == "__main__":
-    # get ip mac pair
-    sw_list = []
-    for sw in switch:
-        name = sw["name"]
-        hostname = sw["hostname"]
-        port = sw["port"]
-        sw_list.append(get_ip_mac(name, hostname, port))
-
-    print("\nsave the following sw output")
-    pprint(sw_list)
-
     all_node_info = get_node_list()
     print("\nsave the following node output")
     pprint(all_node_info)

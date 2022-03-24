@@ -2,6 +2,7 @@ import paramiko
 
 from config import switch, username
 from get_testbed_info import get_ip_mac, output
+from pprint import pprint
 
 
 def install_ovs(name, hostname, port):
@@ -64,6 +65,8 @@ if __name__ == "__main__":
         hostname = sw["hostname"]
         port = sw["port"]
         sw_list.append(get_ip_mac(name, hostname, port))
+    print("\nsave the following sw output")
+    pprint(sw_list)
 
     # # add ovs br & port
     for sw in switch:

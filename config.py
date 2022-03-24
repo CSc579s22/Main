@@ -3,7 +3,7 @@ username = "clarkzjw"
 server = [
     {
         "name": "server",
-        "hostname": "pc737.emulab.net",
+        "hostname": "apt019.apt.emulab.net",
         "port": 22
     }
 ]
@@ -11,83 +11,83 @@ server = [
 node = [
     {
         "name": "sw1c1",
-        "hostname": "pc602.emulab.net",
-        "port": 25012
+        "hostname": "apt071.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw2c1",
-        "hostname": "pc602.emulab.net",
-        "port": 25014
+        "hostname": "apt069.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw3c1",
-        "hostname": "pc602.emulab.net",
-        "port": 25017
+        "hostname": "apt065.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw-r-c1",
-        "hostname": "pc606.emulab.net",
-        "port": 25011
+        "hostname": "apt070.apt.emulab.net",
+        "port": 25211
     },
     {
         "name": "sw-r-c2",
-        "hostname": "pc605.emulab.net",
-        "port": 25010
+        "hostname": "apt070.apt.emulab.net",
+        "port": 25212
     },
     {
         "name": "sw-r-c3",
-        "hostname": "pc603.emulab.net",
-        "port": 25010
+        "hostname": "apt070.apt.emulab.net",
+        "port": 25213
     },
     {
         "name": "sw-r-c4",
-        "hostname": "pc606.emulab.net",
-        "port": 25012
+        "hostname": "apt072.apt.emulab.net",
+        "port": 25210
     }
 ]
 
 cache = [
     {
         "name": "sw1-cache1",
-        "hostname": "pc602.emulab.net",
-        "port": 25011
+        "hostname": "apt067.apt.emulab.net",
+        "port": 25211
     },
     {
         "name": "sw2-cache1",
-        "hostname": "pc604.emulab.net",
-        "port": 25010
+        "hostname": "apt068.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw3-cache1",
-        "hostname": "pc602.emulab.net",
-        "port": 25016
+        "hostname": "apt066.apt.emulab.net",
+        "port": 25210
     }
 ]
 
 switch = [
     {
         "name": "sw1",
-        "hostname": "pc602.emulab.net",
-        "port": 25010
+        "hostname": "apt067.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw2",
-        "hostname": "pc602.emulab.net",
-        "port": 25013
+        "hostname": "apt067.apt.emulab.net",
+        "port": 25212
     },
     {
         "name": "sw3",
-        "hostname": "pc602.emulab.net",
-        "port": 25015
+        "hostname": "apt067.apt.emulab.net",
+        "port": 25213
     },
     {
         "name": "sw-r",
-        "hostname": "pc606.emulab.net",
-        "port": 25010
+        "hostname": "apt070.apt.emulab.net",
+        "port": 25210
     },
     {
         "name": "sw_origin",
-        "hostname": "pc602.emulab.net",
-        "port": 25018
+        "hostname": "apt067.apt.emulab.net",
+        "port": 25214
     }
 ]
