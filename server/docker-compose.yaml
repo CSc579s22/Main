@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "6633:6633"
+      - "8080:8080"
+  mongo:
+    image: "mongo:5.0"
+    volumes:
+      - ./mongodb:/data/db
