@@ -20,6 +20,10 @@ docker build -t clarkzjw/sdncontroller:0.1 .
 ```bash
 docker-compose up -d
 ```
+10. SSH login to switch nodes, set controller for each ovs bridge
+```bash
+sudo ovs-vsctl set-controller <bridge name> tcp:<server node ip>:6633
+```
 
 ## Design
 
