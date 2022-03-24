@@ -1,253 +1,388 @@
-<rspec xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.geni.net/resources/rspec/3" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd" type="request">
+<rspec xmlns="http://www.geni.net/resources/rspec/3" xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" xmlns:tour="http://www.protogeni.net/resources/rspec/ext/apt-tour/1" xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.geni.net/resources/rspec/3    http://www.geni.net/resources/rspec/3/request.xsd" type="request">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw_origin" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134837">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134843" mac_address="0270f3db1110">
+      <ip address="10.254.253.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134846" mac_address="02c74bacdac1">
+      <ip address="10.254.253.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134849" mac_address="02ef9a6a9422">
+      <ip address="10.254.253.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134860" mac_address="02312fe29000">
+      <ip address="10.201.1.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-24" hardware_type="pcvm"/>
+    <host name="sw_origin.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25018" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25018" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134829">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134842" mac_address="02ee979abfbe">
+      <ip address="10.254.254.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw1:if-sw1-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134851" mac_address="021d72c69e73">
+      <ip address="10.253.1.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw1:if-sw1-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134854" mac_address="027f6210cb19">
+      <ip address="10.253.1.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134863" mac_address="02735591a7b3">
+      <ip address="10.210.1.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134866" mac_address="02d84b422077">
+      <ip address="10.210.1.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-11" hardware_type="pcvm"/>
+    <host name="sw1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25010" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25010" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134832">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134845" mac_address="0240989c73cf">
+      <ip address="10.254.254.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134852" mac_address="0279468310be">
+      <ip address="10.253.2.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134857" mac_address="0201e908e001">
+      <ip address="10.253.2.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134869" mac_address="021e6bf5a187">
+      <ip address="10.210.2.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134872" mac_address="023aa04d97ac">
+      <ip address="10.210.2.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-19" hardware_type="pcvm"/>
+    <host name="sw2.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25013" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25013" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134834">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134848" mac_address="02a560435eff">
+      <ip address="10.254.254.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134855" mac_address="02758d6a8567">
+      <ip address="10.253.3.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134858" mac_address="029c823ab147">
+      <ip address="10.253.3.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134875" mac_address="020bdacdcb2f">
+      <ip address="10.210.3.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134878" mac_address="024640177fa4">
+      <ip address="10.210.3.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134894" mac_address="02806ce9d568">
+      <ip address="10.252.253.253" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-21" hardware_type="pcvm"/>
+    <host name="sw3.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25015" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25015" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="server" exclusive="true" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc737" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134828">
+    <sliver_type name="raw-pc"/>
+    <interface client_id="server:if-server" component_id="urn:publicid:IDN+emulab.net+interface+pc737:eth1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134861" mac_address="025fc9e37f56">
+      <ip address="10.1.1.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pc737" hardware_type="d430"/>
+    <host name="server.SABR.QoESDN.emulab.net" ipv4="155.98.36.37"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc737.emulab.net" port="22" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc737.emulab.net" port="22" username="f_amri"/>
+      <emulab:console server="boss.emulab.net"/>
+      <emulab:recovery available="true"/>
+      <emulab:powercycle available="true"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134830">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134864" mac_address="021cef971c45">
+      <ip address="10.10.1.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-17" hardware_type="pcvm"/>
+    <host name="sw1-cache1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25011" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25011" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1c1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134831">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134867" mac_address="02096431d159">
+      <ip address="10.10.1.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-18" hardware_type="pcvm"/>
+    <host name="sw1c1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25012" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25012" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc604" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134839">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc604:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134870" mac_address="02ee4bf95c6f">
+      <ip address="10.10.2.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm604-6" hardware_type="pcvm"/>
+    <host name="sw2-cache1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc604.emulab.net" port="25010" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc604.emulab.net" port="25010" username="f_amri"/>
+      <emulab:console server="pc604.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2c1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134833">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134873" mac_address="028481ccc362">
+      <ip address="10.10.2.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-20" hardware_type="pcvm"/>
+    <host name="sw2c1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25014" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25014" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134835">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134876" mac_address="02dae53b6324">
+      <ip address="10.10.3.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-22" hardware_type="pcvm"/>
+    <host name="sw3-cache1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25016" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25016" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3c1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc602" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134836">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134879" mac_address="0209455feacd">
+      <ip address="10.10.3.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm602-23" hardware_type="pcvm"/>
+    <host name="sw3c1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25017" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc602.emulab.net" port="25017" username="f_amri"/>
+      <emulab:console server="pc602.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc606" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134825">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134881" mac_address="02fa1fa9511e">
+      <ip address="10.210.200.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134884" mac_address="026cce41fe2a">
+      <ip address="10.210.200.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134887" mac_address="021130f3c3e5">
+      <ip address="10.210.200.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134890" mac_address="02aee6aa84b0">
+      <ip address="10.210.200.4" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134893" mac_address="02baef954c98">
+      <ip address="10.252.254.254" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm606-6" hardware_type="pcvm"/>
+    <host name="sw-r.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25010" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25010" username="f_amri"/>
+      <emulab:console server="pc606.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c1" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc606" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134826">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134882" mac_address="0242053f8f82">
+      <ip address="10.10.200.1" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm606-7" hardware_type="pcvm"/>
+    <host name="sw-r-c1.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25011" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25011" username="f_amri"/>
+      <emulab:console server="pc606.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c2" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc605" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134838">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc605:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134885" mac_address="02cec9c44ad1">
+      <ip address="10.10.200.2" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm605-3" hardware_type="pcvm"/>
+    <host name="sw-r-c2.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc605.emulab.net" port="25010" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc605.emulab.net" port="25010" username="f_amri"/>
+      <emulab:console server="pc605.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c3" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc603" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134824">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc603:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134888" mac_address="0215c21fea94">
+      <ip address="10.10.200.3" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm603-4" hardware_type="pcvm"/>
+    <host name="sw-r-c3.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc603.emulab.net" port="25010" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc603.emulab.net" port="25010" username="f_amri"/>
+      <emulab:console server="pc603.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c4" exclusive="false" component_manager_id="urn:publicid:IDN+emulab.net+authority+cm" component_id="urn:publicid:IDN+emulab.net+node+pc606" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134827">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134891" mac_address="0239c98bffe1">
+      <ip address="10.10.200.4" netmask="255.0.0.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="pcvm606-8" hardware_type="pcvm"/>
+    <host name="sw-r-c4.SABR.QoESDN.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25012" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="pc606.emulab.net" port="25012" username="f_amri"/>
+      <emulab:console server="pc606.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134841">
+    <interface_ref client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134842"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134843"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw2" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134844">
+    <interface_ref client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134845"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134846"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw3" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134847">
+    <interface_ref client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134848"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134849"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1-sw2" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134850">
+    <interface_ref client_id="sw1:if-sw1-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134851"/>
+    <interface_ref client_id="sw2:if-sw2-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134852"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1-sw3" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134853">
+    <interface_ref client_id="sw1:if-sw1-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134854"/>
+    <interface_ref client_id="sw3:if-sw3-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134855"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2-sw3" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134856">
+    <interface_ref client_id="sw2:if-sw2-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134857"/>
+    <interface_ref client_id="sw3:if-sw3-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134858"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-server" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134859" vlantag="173">
+    <interface_ref client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134860"/>
+    <interface_ref client_id="server:if-server" component_id="urn:publicid:IDN+emulab.net+interface+pc737:eth1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134861"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+    <emulab:switchpath>arista1:z9500</emulab:switchpath>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1-cache1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134862">
+    <interface_ref client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134863"/>
+    <interface_ref client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134864"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1c1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134865">
+    <interface_ref client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134866"/>
+    <interface_ref client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134867"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2-cache1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134868" vlantag="228">
+    <interface_ref client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134869"/>
+    <interface_ref client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc604:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134870"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2c1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134871">
+    <interface_ref client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134872"/>
+    <interface_ref client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134873"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3-cache1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134874">
+    <interface_ref client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134875"/>
+    <interface_ref client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134876"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3c1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134877">
+    <interface_ref client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134878"/>
+    <interface_ref client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+emulab.net+interface+pc602:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134879"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c1" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134880">
+    <interface_ref client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134881"/>
+    <interface_ref client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134882"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c2" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134883" vlantag="244">
+    <interface_ref client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134884"/>
+    <interface_ref client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc605:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134885"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c3" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134886" vlantag="127">
+    <interface_ref client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134887"/>
+    <interface_ref client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc603:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134888"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134889">
+    <interface_ref client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134890"/>
+    <interface_ref client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc606:lo0" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134891"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134892" vlantag="243">
+    <interface_ref client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+emulab.net+interface+pc606:eth4" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134893"/>
+    <interface_ref client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+emulab.net+interface+pc602:eth5" sliver_id="urn:publicid:IDN+emulab.net+sliver+1134894"/>
+    <component_manager name="urn:publicid:IDN+emulab.net+authority+cm"/>
+  </link>
   <rspec_tour xmlns="http://www.protogeni.net/resources/rspec/ext/apt-tour/1">
     <description type="markdown">
 Multi layer Topology
 </description>
   </rspec_tour>
-  <node client_id="sw_origin" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw_origin:if-sw_origin-sw1">
-      <ip address="10.254.253.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw_origin:if-sw_origin-sw2">
-      <ip address="10.254.253.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw_origin:if-sw_origin-sw3">
-      <ip address="10.254.253.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw_origin:if-sw_origin-server">
-      <ip address="10.201.1.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <node client_id="sw1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1:if-sw1-sw_origin">
-      <ip address="10.254.254.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw1:if-sw1-sw2">
-      <ip address="10.253.1.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw1:if-sw1-sw3">
-      <ip address="10.253.1.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw1:if-sw1-cache1">
-      <ip address="10.210.1.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw1:if-sw1c1">
-      <ip address="10.210.1.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw_origin-sw1">
-    <interface_ref client_id="sw1:if-sw1-sw_origin"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw1"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw2" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2:if-sw2-sw_origin">
-      <ip address="10.254.254.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2-sw1">
-      <ip address="10.253.2.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2-sw3">
-      <ip address="10.253.2.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2-cache1">
-      <ip address="10.210.2.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2c1">
-      <ip address="10.210.2.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw_origin-sw2">
-    <interface_ref client_id="sw2:if-sw2-sw_origin"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw2"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw3" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3:if-sw3-sw_origin">
-      <ip address="10.254.254.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3-sw1">
-      <ip address="10.253.3.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3-sw2">
-      <ip address="10.253.3.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3-cache1">
-      <ip address="10.210.3.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3c1">
-      <ip address="10.210.3.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-c-sw-r">
-      <ip address="10.252.253.253" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw_origin-sw3">
-    <interface_ref client_id="sw3:if-sw3-sw_origin"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw3"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <link client_id="link-sw1-sw2">
-    <interface_ref client_id="sw1:if-sw1-sw2"/>
-    <interface_ref client_id="sw2:if-sw2-sw1"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <link client_id="link-sw1-sw3">
-    <interface_ref client_id="sw1:if-sw1-sw3"/>
-    <interface_ref client_id="sw3:if-sw3-sw1"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <link client_id="link-sw2-sw3">
-    <interface_ref client_id="sw2:if-sw2-sw3"/>
-    <interface_ref client_id="sw3:if-sw3-sw2"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="server" exclusive="true">
-    <sliver_type name="raw"/>
-    <interface client_id="server:if-server">
-      <ip address="10.1.1.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw_origin-server">
-    <interface_ref client_id="sw_origin:if-sw_origin-server"/>
-    <interface_ref client_id="server:if-server"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw1-cache1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1-cache1:if-cache1-sw1">
-      <ip address="10.10.1.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw1-cache1">
-    <interface_ref client_id="sw1:if-sw1-cache1"/>
-    <interface_ref client_id="sw1-cache1:if-cache1-sw1"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw1c1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1c1:if-c1sw1">
-      <ip address="10.10.1.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw1c1">
-    <interface_ref client_id="sw1:if-sw1c1"/>
-    <interface_ref client_id="sw1c1:if-c1sw1"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw2-cache1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2-cache1:if-cache1-sw2">
-      <ip address="10.10.2.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw2-cache1">
-    <interface_ref client_id="sw2:if-sw2-cache1"/>
-    <interface_ref client_id="sw2-cache1:if-cache1-sw2"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw2c1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2c1:if-c1sw2">
-      <ip address="10.10.2.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw2c1">
-    <interface_ref client_id="sw2:if-sw2c1"/>
-    <interface_ref client_id="sw2c1:if-c1sw2"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw3-cache1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3-cache1:if-cache1-sw3">
-      <ip address="10.10.3.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw3-cache1">
-    <interface_ref client_id="sw3:if-sw3-cache1"/>
-    <interface_ref client_id="sw3-cache1:if-cache1-sw3"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw3c1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3c1:if-c1sw3">
-      <ip address="10.10.3.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw3c1">
-    <interface_ref client_id="sw3:if-sw3c1"/>
-    <interface_ref client_id="sw3c1:if-c1sw3"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw-r" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r:if-sw-r-c1">
-      <ip address="10.210.200.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c2">
-      <ip address="10.210.200.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c3">
-      <ip address="10.210.200.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c4">
-      <ip address="10.210.200.4" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c">
-      <ip address="10.252.254.254" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <node client_id="sw-r-c1" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c1:if-c1sw-r">
-      <ip address="10.10.200.1" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw-r-c1">
-    <interface_ref client_id="sw-r:if-sw-r-c1"/>
-    <interface_ref client_id="sw-r-c1:if-c1sw-r"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw-r-c2" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c2:if-c2sw-r">
-      <ip address="10.10.200.2" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw-r-c2">
-    <interface_ref client_id="sw-r:if-sw-r-c2"/>
-    <interface_ref client_id="sw-r-c2:if-c2sw-r"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw-r-c3" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c3:if-c3sw-r">
-      <ip address="10.10.200.3" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw-r-c3">
-    <interface_ref client_id="sw-r:if-sw-r-c3"/>
-    <interface_ref client_id="sw-r-c3:if-c3sw-r"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <node client_id="sw-r-c4" exclusive="false">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c4:if-c4sw-r">
-      <ip address="10.10.200.4" netmask="255.0.0.0" type="ipv4"/>
-    </interface>
-  </node>
-  <link client_id="link-sw-r-c4">
-    <interface_ref client_id="sw-r:if-sw-r-c4"/>
-    <interface_ref client_id="sw-r-c4:if-c4sw-r"/>
-    <jacks:site id="multilayer"/>
-  </link>
-  <link client_id="link-sw-r-c">
-    <interface_ref client_id="sw-r:if-sw-r-c"/>
-    <interface_ref client_id="sw3:if-c-sw-r"/>
-    <jacks:site id="multilayer"/>
-  </link>
+  <emulab:portal name="cloudlab" url="https://www.cloudlab.us/status.php?uuid=16c830bc-ab9a-11ec-b318-e4434b2381fc" project="QoESDN" experiment="SABR"/>
+  <rs:site_info xmlns:rs="http://www.protogeni.net/resources/rspec/ext/site-info/1">
+    <rs:location country="US" latitude="40.768652" longitude="-111.84581"/>
+  </rs:site_info>
 </rspec>

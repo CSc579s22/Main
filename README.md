@@ -1,3 +1,19 @@
+# QoE Improvements For Adaptive Video Streaming Over SDN-Enabled Networks
+
+## Install
+
+### Provision on CloudLab
+
+1. Create a CloudLab profile using [`multilayer.py`](./server/topology/multilayer.py)
+2. Instantiate an experiment using the profile created above
+3. After the experiment is ready, copy the `Manifest` from CloudLab experiment details page into [`topo.xml`](./topo.xml)
+4. Run [`validate_topo.py`](./validate_topo.py) to validate topology
+5. Update server login information (username, hostname, port) in [`config.py`](./config.py)
+6. Run [`get_testbed_info.py`](./get_testbed_info.py), update `Switch` and `Node` in [`server/config.py`](./server/config.py) using the information printed in the last step
+7. Run [`setup_testbed.py`](./setup_testbed.py) to install dependencies on nodes
+
+## Design
+
 Steps:
 
 + Clients join the network by "connecting the port to OVS switch"

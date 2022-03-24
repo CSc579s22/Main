@@ -77,7 +77,7 @@ def get_node_port_ip_on_sw(filename, node_name, ip):
 
 
 if __name__ == "__main__":
-    G = get_nx_graph_from_xml("../../topo.xml")
+    G = get_nx_graph_from_xml("topo.xml")
     pos = nx.spring_layout(G, seed=3)
     nx.draw(G, pos, with_labels=True)
     labels = nx.get_edge_attributes(G, "weight")

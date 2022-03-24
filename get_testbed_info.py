@@ -1,7 +1,8 @@
 import paramiko
 from config import switch, username, node, cache, server
 from pprint import pprint
-from server.topology.convert import get_nx_graph_from_xml, get_node_port_ip_on_sw
+from validate_topo import get_node_port_ip_on_sw
+
 
 def output(out):
     while True:
@@ -9,27 +10,6 @@ def output(out):
         if not line:
             return
         print(line, end="")
-
-
-def install_ovs(name, hostname, port):
-    with open("ovs/ovs-setup.sh") as f:
-        command = f.read()
-    client = paramiko.SSHClient()
-    try:
-        client.load_system_host_keys()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname, port=port, username=username)
-        print("Connecting {} {}:{}".format(name, hostname, port))
-        _, stdout, _ = client.exec_command(command)
-        output(stdout)
-
-        # cmd_add_br = "sudo ovs-vsctl --may-exist add-br {} && sudo ovs-vsctl list-br".format(name)
-        # _, stdout, _ = client.exec_command(cmd_add_br)
-        # output(stdout)
-    except ... as e:
-        print(e)
-    finally:
-        client.close()
 
 
 def get_ip_mac(name, hostname, port):
@@ -140,33 +120,6 @@ def get_ip_mac(name, hostname, port):
         client.close()
 
 
-def add_br_port(name, hostname, port, sw_list):
-    client = paramiko.SSHClient()
-    try:
-        client.load_system_host_keys()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname, port=port, username=username)
-        print("Connecting {} {}:{}".format(name, hostname, port))
-        cmd_add_br = "sudo ovs-vsctl --may-exist add-br {} && sudo ovs-vsctl list-br".format(name)
-        _, stdout, _ = client.exec_command(cmd_add_br)
-        output(stdout)
-
-        for node in sw_list:
-            if node["name"] == name:
-                for port in node["ports"]:
-                    if port["name"] == "eth0":
-                        continue
-                    cmd_add_port = "sudo ovs-vsctl --may-exist add-port {} {}".format(name, port["name"])
-                    _, stdout, _ = client.exec_command(cmd_add_port)
-                    output(stdout)
-                break
-
-    except ... as e:
-        print(e)
-    finally:
-        client.close()
-
-
 def get_node_ovs_ip(name, hostname, port):
     client = paramiko.SSHClient()
     try:
@@ -266,15 +219,7 @@ def get_node_list():
 
 
 if __name__ == "__main__":
-    # for switch nodes
-    # # install ovs
-    for sw in switch:
-        name = sw["name"]
-        hostname = sw["hostname"]
-        port = sw["port"]
-        install_ovs(name, hostname, port)
-
-    # # get ip mac pair
+    # get ip mac pair
     sw_list = []
     for sw in switch:
         name = sw["name"]
@@ -288,10 +233,3 @@ if __name__ == "__main__":
     all_node_info = get_node_list()
     print("\nsave the following node output")
     pprint(all_node_info)
-
-    # # add ovs br & port
-    for sw in switch:
-        name = sw["name"]
-        hostname = sw["hostname"]
-        port = sw["port"]
-        add_br_port(name, hostname, port, sw_list)
