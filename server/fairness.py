@@ -1,43 +1,58 @@
 import numpy as np
-from sympy import symbols, Eq, solve
+from sympy import symbols, Eq, nsolve
+
+M = [[-3.035, -0.5061, 1.022], [-4.85, -0.647, 1.011], [-17.53, -1.048, 0.9912]]
 
 
-def stage1(N, a, b, c, r_max, BW):  # r_max is an integer
-    r = []
-    eqs = []
+# a vector of res=[] and r_max=[] is needed!
+def stage1(N, M, res, r_max, BW):
+    u = []
     r = list(symbols('r0:%d' % N))
-    # print(r)
+    # print("vector of r= ", r)
     for i in range(N):
-        if i == N - 1:
-            break
-        else:
-            eqs.append(Eq(((a * (r[i] ** b) + c) / (a * (r_max ** b) + c)) - (
-                        (a * (r[i + 1] ** b) + c) / (a * (r_max ** b) + c)), 0))
-    # print(eqs)
-    sol = solve(eqs)
-    # print(sol)
-    r1 = BW / N
-    # print(r1)
-    opt_r = []
-    for i in range(N):
-        opt_r.append(r1)
-    return sol, opt_r
+        if res[i] == 1080:
+            a = M[0][0]
+            b = M[0][1]
+            c = M[0][2]
+            frac = a * (r_max[i] ** b) + c
+            u.append((a * (r[i] ** b) + c) / frac)
+        elif res[i] == 720:
+            a = M[1][0]
+            b = M[1][1]
+            c = M[1][2]
+            frac = a * (r_max[i] ** b) + c
+            u.append((a * (r[i] ** b) + c) / frac)
+        elif res[i] == 360:
+            a = M[2][0]
+            b = M[2][1]
+            c = M[2][2]
+            frac = a * (r_max[i] ** b) + c
+            u.append((a * (r[i] ** b) + c) / frac)
+    # print(u)
+    eq2 = Eq(sum(r), BW)
+    eq = []
+    eq.append(eq2)
+    for i in range(N - 1):
+        e1 = u[i] - u[i + 1]
+        eq.append(Eq(e1, 0))
+    # print("vector of equations= ", eq)
+    ov = np.ones(N)
+    sol = nsolve(eq, r, ov)
+    # print("optimal r= ", sol)
+    return sol
 
 
-# r= stage1(5,-3,-0.5,1,30,50)
-# print(r)
-
-def stage3(a, b, c, CL, t, ti, r_prim):
+def stage3(M, CL, t, ti, r_prime):
     w = 1 / 3
     VQ_F1 = []
     CT_F1 = []
     SI_F1 = []
     for r in CL:
-        VQ_F = VQ_fairness(a, b, c, r)
+        VQ_F = VQ_fairness(M, r)
         VQ_F1.append(VQ_F)
-        CT_F = CT_fairness(a, b, c, r)
+        CT_F = CT_fairness(M, r)
         CT_F1.append(CT_F)
-        SI_F = SI_fairness(a, b, c, r, t, ti, r_prim)
+        SI_F = SI_fairness(M, r, t, ti, r_prime)
         SI_F1.append(SI_F)
     VQ_MAX = max(VQ_F1)
     CT_MAX = max(CT_F1)
@@ -65,59 +80,92 @@ def stage3(a, b, c, CL, t, ti, r_prim):
     return S_combined
 
 
-# resolution is fixed
-def U_Prim(N, a, b, c, r, r_max):
-    U_max = a * (r_max) ** b + c
+def U_Prime(N, M, r, res, r_max):
+    u_prime_vector = []
     for i in range(N):
-        U = (a * (r[i]) ** b) + c
-        U_prim = U / U_max
+        if res[i] == 1080:
+            a = M[0][0]
+            b = M[0][1]
+            c = M[0][2]
+            frac = a * (r_max[i] ** b) + c
+            u_prime_vector.append((a * (r[i] ** b) + c) / frac)
+        elif res[i] == 720:
+            a = M[1][0]
+            b = M[1][1]
+            c = M[1][2]
+            frac = a * (r_max[i] ** b) + c
+            u_prime_vector.append((a * (r[i] ** b) + c) / frac)
+        elif res[i] == 360:
+            a = M[2][0]
+            b = M[2][1]
+            c = M[2][2]
+            frac = a * (r_max[i] ** b) + c
+            u_prime_vector.append((a * (r[i] ** b) + c) / frac)
+    return u_prime_vector
 
-    return U_prim
+
+def Q(N, M, r, res):
+    Q_vector = []
+    for i in range(N):
+        if res[i] == 1080:
+            a = M[0][0]
+            b = M[0][1]
+            c = M[0][2]
+            Q_vector.append(a * (r[i] ** b) + c)
+        elif res[i] == 720:
+            a = M[1][0]
+            b = M[1][1]
+            c = M[1][2]
+            Q_vector.append(a * (r[i] ** b) + c)
+        elif res[i] == 360:
+            a = M[2][0]
+            b = M[2][1]
+            c = M[2][2]
+            Q_vector.append(a * (r[i] ** b) + c)
+    return Q_vector
 
 
-# vq_utiliy= U_Prim(4,-3.035,-0.5061,1.022,[12,14,18,22],30)
-# print(vq_utiliy)
-
-def Q(a, b, c, r):
-    Q = []
-    for i in r:
-        Q.append(a * (i ** b) + c)
-    return Q
-
-
-# q=Q(-3.035,-0.5061,1.022,[12,14,18,22])
-# print(q)
-
-def VQ_fairness(a, b, c, r):
-    Q1 = Q(a, b, c, r)
+def VQ_fairness(N, M, r, res):
+    Q1 = Q(N, M, r, res)
     s_vq = np.std(Q1)
     RSD = (100 * s_vq) / np.mean(Q1)
     return RSD
 
 
-# f= VQ_fairness(-3.035,-0.5061,1.022,[12,14,18,22])
-# print(f)
-
-def CT_fairness(N, a, b, c, r, r_max):
-    utility = U_Prim(N, a, b, c, r, r_max)
+def CT_fairness(N, M, res, r, r_max):
+    utility = U_Prime(N, M, r, res, r_max)
     CT = np.sum(r) / np.sum(utility)
     return CT
 
 
-# c=CT_fairness(4,-3.035,-0.5061,1.022,[12,14,18,22],30)
-# print(c)
-
-
-def SI_fairness(a, b, c, r, t, ti, r_prim):
-    Q1 = Q(a, b, c, r)
-    Q_prim = a * (r_prim ** b) + c
+def SI_fairness(N, M, res, r, t, ti, r_prime, res2):
+    # r_prime is a vector of projected bitrates
+    # and res2 is a vector of resolution after the switching
+    Q1 = Q(N, M, r, res)
+    Q_prime = []  # vector of qualities after switching
+    for i in range(N):
+        if res2[i] == 1080:
+            a = M[0][0]
+            b = M[0][1]
+            c = M[0][2]
+            Q_prime.append(a * (r_prime[i] ** b) + c)
+        elif res2[i] == 720:
+            a = M[1][0]
+            b = M[1][1]
+            c = M[1][2]
+            Q_prime.append(a * (r_prime[i] ** b) + c)
+        elif res2[i] == 360:
+            a = M[2][0]
+            b = M[2][1]
+            c = M[2][2]
+            Q_prime.append(a * (r_prime[i] ** b) + c)
     del_Q = []
     S1 = []
     S2 = []
     for i in len(ti):
-        del_Q[i] = abs(Q1[i] - Q_prim[i])
+        del_Q[i] = abs(Q1[i] - Q_prime[i])
         S1[i] = del_Q[i] * np.exp(-0.015 * (t - ti(i)))
-        S2[i] = max(S1[i], 0.1 * del_Q[i])
+        S2.append(max(S1[i], 0.1 * del_Q[i]))
     s_si = np.std(S2)
     RSD = (100 * s_si) / np.mean(s_si)
     return RSD

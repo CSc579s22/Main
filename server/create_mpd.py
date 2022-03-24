@@ -1,18 +1,15 @@
-from ffmpeg_streaming import input, Formats
+import datetime
+import sys
+import time
 from pathlib import Path
+
+from ffmpeg_streaming import Formats
+from ffmpeg_streaming import input
 
 # BigBuckBunny video url
 # https://www.youtube.com/watch?v=aqz-KE-bpKQ
 # or
 # https://s3.us-west-1.wasabisys.com/public-assets/original.mkv
-
-import datetime
-import sys
-import time
-
-import ffmpeg_streaming
-from ffmpeg_streaming import Formats
-
 
 start_time = time.time()
 
@@ -29,16 +26,11 @@ def time_left(time_, total):
 
 
 def monitor(ffmpeg, duration, time_, process):
-    # You can update a field in your database or log it to a file
-    # You can also create a socket connection and show a progress bar to users
-    # logging.info(ffmpeg) or print(ffmpeg)
-
-    # if "something happened":
-    #     process.terminate()
-
     per = round(time_ / duration * 100)
-    sys.stdout.write("\rTranscoding...(%s%%) %s [%s%s]" % (per, time_left(time_, duration), '#' * per, '-' * (100 - per)))
+    sys.stdout.write(
+        "\rTranscoding...(%s%%) %s [%s%s]" % (per, time_left(time_, duration), '#' * per, '-' * (100 - per)))
     sys.stdout.flush()
+
 
 opts = {
     'hide_banner': None,
@@ -47,14 +39,6 @@ opts = {
     'hwaccel': 'cuvid',
     'c:v': 'h264_cuvid'
 }
-
-# video = ffmpeg_streaming.input('/var/www/video.mp4', )
-
-# hls = video.hls(Formats.h264('h264_nvenc'))
-# hls.auto_generate_representations()
-#
-# hls.output('/var/media/hls.m3u8', monitor=monitor)
-
 
 video_path = "h264.mp4"
 video = input(video_path, pre_opts=opts)
