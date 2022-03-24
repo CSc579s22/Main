@@ -1,3 +1,5 @@
+#!/usr/bin/python2
+
 """
 Multi layer Topology
 """
@@ -31,27 +33,27 @@ sw_origin = request.XenVM("sw_origin")
 backbone_sw = []
 number_of_backbone_regions = 3
 for i in range(number_of_backbone_regions):
-    sw = request.XenVM("backbone_sw{}".format(i + 1))
+    sw = request.XenVM("sw{}".format(i + 1))
     backbone_sw.append(sw)
-    link = request.Link("l-ogsw-bbsw-{}".format(i + 1))
+    link = request.Link("link-sw_origin-sw{}".format(i + 1))
     link.Site(site_name)
     link.addInterface(
-        sw.addInterface("if-bbsw-ogsw-{}".format(i + 1), pg.IPv4Address("10.254.254.{}".format(i + 1), mask)))
+        sw.addInterface("if-sw{}-sw_origin".format(i + 1), pg.IPv4Address("10.254.254.{}".format(i + 1), mask)))
     link.addInterface(
-        sw_origin.addInterface("if-ogsw-bbsw-{}".format(i + 1), pg.IPv4Address("10.254.253.{}".format(i + 1), mask)))
+        sw_origin.addInterface("if-sw_origin-sw{}".format(i + 1), pg.IPv4Address("10.254.253.{}".format(i + 1), mask)))
 
 for i in range(len(backbone_sw)):
     for j in range(i+1, len(backbone_sw)):
-        link = request.Link("l-sw{}-sw{}".format(i+1, j+1))
+        link = request.Link("link-sw{}-sw{}".format(i+1, j+1))
         link.Site(site_name)
         link.addInterface(backbone_sw[i].addInterface("if-sw{}-sw{}".format(i+1, j+1), pg.IPv4Address("10.253.{}.{}".format(i+1, j+1), mask)))
         link.addInterface(backbone_sw[j].addInterface("if-sw{}-sw{}".format(j+1, i+1), pg.IPv4Address("10.253.{}.{}".format(j+1, i+1), mask)))
 
 # Origin server
 node_server = request.RawPC('server')
-if_sw = sw_origin.addInterface("if-ogsw-server", pg.IPv4Address("10.201.1.1", mask))
+if_sw = sw_origin.addInterface("if-sw_origin-server", pg.IPv4Address("10.201.1.1", mask))
 if_server = node_server.addInterface('if-server', pg.IPv4Address('10.1.1.1', mask))
-link = request.Link("l-ogsw-server")
+link = request.Link("link-sw_origin-server")
 link.Site(site_name)
 link.addInterface(if_sw)
 link.addInterface(if_server)
@@ -59,14 +61,14 @@ link.addInterface(if_server)
 # add clients and cache for each backbone region
 number_of_client_each_region = 1
 for i in range(number_of_backbone_regions):
-    cache = request.XenVM("sw{}-cache".format(i+1))
-    link = request.Link("l-sw{}-cache".format(i+1))
+    cache = request.XenVM("sw{}-cache1".format(i+1, i+1))
+    link = request.Link("link-sw{}-cache1".format(i+1, i+1))
     link.Site(site_name)
-    link.addInterface(backbone_sw[i].addInterface("if-sw{}-cache".format(i+1), pg.IPv4Address("10.210.{}.254".format(i+1), mask)))
-    link.addInterface(cache.addInterface("if-cache-sw{}".format(i+1), pg.IPv4Address("10.10.{}.254".format(i+1), mask)))
+    link.addInterface(backbone_sw[i].addInterface("if-sw{}-cache1".format(i+1, i+1), pg.IPv4Address("10.210.{}.254".format(i+1), mask)))
+    link.addInterface(cache.addInterface("if-cache1-sw{}".format(i+1, i+1), pg.IPv4Address("10.10.{}.254".format(i+1), mask)))
     for j in range(number_of_client_each_region):
         client = request.XenVM("sw{}c{}".format(i + 1, j + 1))
-        link = request.Link("l-sw{}c{}".format(i + 1, j + 1))
+        link = request.Link("link-sw{}c{}".format(i + 1, j + 1))
         link.Site(site_name)
         link.addInterface(
             backbone_sw[i].addInterface("if-sw{}c{}".format(i + 1, j + 1),
@@ -81,7 +83,7 @@ remote_region_sw = request.XenVM("sw-r")
 remote_clients = 4
 for i in range(remote_clients):
     client = request.XenVM("sw-r-c{}".format(i + 1))
-    link = request.Link("l-sw-r-c{}".format(i + 1))
+    link = request.Link("link-sw-r-c{}".format(i + 1))
     link.Site(site_name)
     link.addInterface(
         remote_region_sw.addInterface("if-sw-r-c{}".format(i + 1),
@@ -92,7 +94,7 @@ for i in range(remote_clients):
                             pg.IPv4Address("10.10.200.{}".format(i + 1), mask))
     )
 
-link = request.Link("l-sw-r-c")
+link = request.Link("link-sw-r-c")
 link.Site(site_name)
 link.addInterface(
     remote_region_sw.addInterface("if-sw-r-c", pg.IPv4Address("10.252.254.254", mask))

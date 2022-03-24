@@ -1,5 +1,5 @@
 import paramiko
-from config import switch, username
+from config import switch, username, node, cache, server
 from pprint import pprint
 
 
@@ -148,6 +148,18 @@ def add_br_port(name, hostname, port, sw_list):
         print(e)
     finally:
         client.close()
+
+
+# TODO
+def get_node_list():
+    # Python 3.9+ only
+    all_nodes = server | node | cache
+    # Python 3.5+
+    # all_nodes = {**server, **node, **cache}
+    for n in all_nodes:
+        # get ip of eth1
+        # get mapping
+        pass
 
 
 if __name__ == "__main__":

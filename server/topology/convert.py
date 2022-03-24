@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 tree = ET.parse('topo.xml')
 root = tree.getroot()
 G = nx.Graph()
-node_list = []
 node_link_map = {}
 for node in root:
     if str.endswith(node.tag, "node"):
