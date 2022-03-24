@@ -16,6 +16,10 @@ def install_ovs(name, hostname, port):
         print("Connecting {} {}:{}".format(name, hostname, port))
         _, stdout, _ = client.exec_command(command)
         output(stdout)
+
+        cmd_add_br = "sudo ovs-vsctl --may-exist add-br {} && sudo ovs-vsctl list-br".format(name)
+        _, stdout, _ = client.exec_command(cmd_add_br)
+        output(stdout)
     except ... as e:
         print(e)
     finally:
@@ -46,9 +50,6 @@ def add_br_port(name, hostname, port, sw_list):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname, port=port, username=username)
         print("Connecting {} {}:{}".format(name, hostname, port))
-        cmd_add_br = "sudo ovs-vsctl --may-exist add-br {} && sudo ovs-vsctl list-br".format(name)
-        _, stdout, _ = client.exec_command(cmd_add_br)
-        output(stdout)
 
         for node in sw_list:
             if node["name"] == name:
