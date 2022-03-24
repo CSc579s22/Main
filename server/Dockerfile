@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 RUN apt-get update && \
-    apt-get install -yy python3 python3-dev python3-pip build-essential
+    apt-get install -yy python3 python3-dev python3-pip build-essential curl
 
 RUN mkdir /app
 ADD requirements.txt /app
