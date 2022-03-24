@@ -5,7 +5,7 @@ set -x
 cd /tmp/ || exit
 
 # install basic dependencies
-sudo apt update && DEBIAN_FRONTEND=noninteractive sudo apt upgrade -y
+sudo apt update
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo bash get-docker.sh
 

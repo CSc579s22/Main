@@ -2,15 +2,10 @@
 set -x
 
 # setup on cache server
-sudo apt update && sudo apt upgrade -y && sudo apt install varnish -y
+sudo apt update && sudo apt install varnish -y
 sudo mkdir -p /etc/systemd/system/varnish.service.d
-sudo cp customexec.conf /etc/systemd/system/varnish.service.d/customexec.conf
-sudo cp default.vcl /etc/varnish/default.vcl
+sudo curl -fsSL https://raw.githubusercontent.com/CSc579s22/Main/master/cache/customexec.conf -o /etc/systemd/system/varnish.service.d/customexec.conf
+sudo curl -fsSL https://raw.githubusercontent.com/CSc579s22/Main/master/cache/default.vcl -o /etc/varnish/default.vcl
 sudo systemctl daemon-reload
 sudo systemctl restart varnish
-sudo varnishstat -1 | grep MAIN.cache
-#MAIN.cache_hit                         6         0.04 Cache hits
-#MAIN.cache_hit_grace                   0         0.00 Cache grace hits
-#MAIN.cache_hitpass                     0         0.00 Cache hits for pass.
-#MAIN.cache_hitmiss                     0         0.00 Cache hits for miss.
-#MAIN.cache_miss                        2         0.01 Cache misses
+sudo varnishadm param.set default_ttl 7200
