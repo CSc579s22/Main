@@ -3,7 +3,7 @@ username = "clarkzjw"
 server = [
     {
         "name": "server",
-        "hostname": "pc607.emulab.net",
+        "hostname": "pc737.emulab.net",
         "port": 22
     }
 ]
@@ -11,83 +11,83 @@ server = [
 node = [
     {
         "name": "sw1c1",
-        "hostname": "pc605.emulab.net",
-        "port": 30754
+        "hostname": "pc602.emulab.net",
+        "port": 25012
     },
     {
         "name": "sw2c1",
-        "hostname": "pc603.emulab.net",
-        "port": 30754
+        "hostname": "pc602.emulab.net",
+        "port": 25014
     },
     {
         "name": "sw3c1",
-        "hostname": "pc606.emulab.net",
-        "port": 30759
+        "hostname": "pc602.emulab.net",
+        "port": 25017
     },
     {
         "name": "sw-r-c1",
-        "hostname": "pc602.emulab.net",
-        "port": 30755
+        "hostname": "pc606.emulab.net",
+        "port": 25011
     },
     {
         "name": "sw-r-c2",
-        "hostname": "pc602.emulab.net",
-        "port": 30756
+        "hostname": "pc605.emulab.net",
+        "port": 25010
     },
     {
         "name": "sw-r-c3",
-        "hostname": "pc602.emulab.net",
-        "port": 30757
+        "hostname": "pc603.emulab.net",
+        "port": 25010
     },
     {
         "name": "sw-r-c4",
-        "hostname": "pc602.emulab.net",
-        "port": 30758
+        "hostname": "pc606.emulab.net",
+        "port": 25012
     }
 ]
 
 cache = [
     {
         "name": "sw1-cache1",
-        "hostname": "pc606.emulab.net",
-        "port": 30757
+        "hostname": "pc602.emulab.net",
+        "port": 25011
     },
     {
         "name": "sw2-cache1",
         "hostname": "pc604.emulab.net",
-        "port": 30754
+        "port": 25010
     },
     {
         "name": "sw3-cache1",
-        "hostname": "pc606.emulab.net",
-        "port": 30758
+        "hostname": "pc602.emulab.net",
+        "port": 25016
     }
 ]
 
 switch = [
     {
         "name": "sw1",
-        "hostname": "pc606.emulab.net",
-        "port": 30754
+        "hostname": "pc602.emulab.net",
+        "port": 25010
     },
     {
         "name": "sw2",
-        "hostname": "pc606.emulab.net",
-        "port": 30755
+        "hostname": "pc602.emulab.net",
+        "port": 25013
     },
     {
         "name": "sw3",
-        "hostname": "pc606.emulab.net",
-        "port": 30756
+        "hostname": "pc602.emulab.net",
+        "port": 25015
     },
     {
         "name": "sw-r",
-        "hostname": "pc602.emulab.net",
-        "port": 30754
+        "hostname": "pc606.emulab.net",
+        "port": 25010
     },
     {
         "name": "sw_origin",
-        "hostname": "pc606.emulab.net",
-        "port": 30760
+        "hostname": "pc602.emulab.net",
+        "port": 25018
     }
 ]
