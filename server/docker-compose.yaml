@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   ryu:
-    build: .
+#    build: .
+    image: "clarkzjw/sabrcontroller:0.1"
     ports:
       - "6633:6633"
       - "8080:8080"

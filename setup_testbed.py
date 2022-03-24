@@ -1,12 +1,29 @@
 import paramiko
 
-from config import switch, username
+from config import switch, username, server
 from get_testbed_info import get_ip_mac, output
 from pprint import pprint
 
 
 def install_ovs(name, hostname, port):
     with open("ovs/ovs-setup.sh") as f:
+        command = f.read()
+    client = paramiko.SSHClient()
+    try:
+        client.load_system_host_keys()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.connect(hostname, port=port, username=username)
+        print("Connecting {} {}:{}".format(name, hostname, port))
+        _, stdout, _ = client.exec_command(command)
+        output(stdout)
+    except ... as e:
+        print(e)
+    finally:
+        client.close()
+
+
+def install_server(name, hostname, port):
+    with open("server/server-setup.sh") as f:
         command = f.read()
     client = paramiko.SSHClient()
     try:
@@ -65,8 +82,6 @@ if __name__ == "__main__":
         hostname = sw["hostname"]
         port = sw["port"]
         sw_list.append(get_ip_mac(name, hostname, port))
-    print("\nsave the following sw output")
-    pprint(sw_list)
 
     # # add ovs br & port
     for sw in switch:
@@ -74,3 +89,13 @@ if __name__ == "__main__":
         hostname = sw["hostname"]
         port = sw["port"]
         add_br_port(name, hostname, port, sw_list)
+
+    # for server node
+    for s in server:
+        name = s["name"]
+        hostname = s["hostname"]
+        port = s["port"]
+        install_server(name, hostname, port)
+
+    print("\nsave the following sw output")
+    pprint(sw_list)

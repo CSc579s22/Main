@@ -22,18 +22,20 @@ IP for Interconnecting Backbone Switch Ports:
 
 # Create a portal object
 pc = portal.Context()
-
+ovs_image = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18OVS"
 # Create a Request object to start building the RSpec.
 request = pc.makeRequestRSpec()
 
 # Switch for origin server
 sw_origin = request.XenVM("sw_origin")
+sw_origin.disk_image = ovs_image
 
 # Backbone switch
 backbone_sw = []
 number_of_backbone_regions = 3
 for i in range(number_of_backbone_regions):
     sw = request.XenVM("sw{}".format(i + 1))
+    sw.disk_image = ovs_image
     backbone_sw.append(sw)
     link = request.Link("link-sw_origin-sw{}".format(i + 1))
     link.Site(site_name)
@@ -80,6 +82,7 @@ for i in range(number_of_backbone_regions):
         )
 
 remote_region_sw = request.XenVM("sw-r")
+remote_region_sw.disk_image = ovs_image
 remote_clients = 4
 for i in range(remote_clients):
     client = request.XenVM("sw-r-c{}".format(i + 1))
