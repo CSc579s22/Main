@@ -9,9 +9,13 @@ MaxInt = sys.maxsize
 # Enable SABR cache server selection based on bandwidth estimation from SABR paper
 EnableSABR = True
 
-ConnectedSwitchPort = {
-    "02:92:b4:89:d6:8f": "02:8f:66:ba:35:6c"
-}
+ConnectedSwitchPort = {'02:02:d3:4d:5e:5a': '02:eb:66:72:29:4b',
+                       '02:0f:30:68:27:0f': '02:48:03:76:cf:57',
+                       '02:3d:b6:2e:32:75': '02:a7:52:a4:8a:cd',
+                       '02:6e:ae:53:78:5e': '02:bb:17:af:9d:9b',
+                       '02:86:f6:19:99:5f': '02:1e:8a:c8:a6:47',
+                       '02:b2:0b:fe:aa:16': '02:dd:34:93:5c:1f',
+                       '02:be:f0:02:9b:4d': '02:c7:96:df:98:c0'}
 
 Switch = [{'dpid': '00009697b9a53844',
            'name': 'sw1',

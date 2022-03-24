@@ -2,7 +2,9 @@ import xml.etree.ElementTree as ET
 
 import networkx as nx
 from matplotlib import pyplot as plt
-
+from pprint import pprint
+from config import switch
+from server.config import Switch
 
 def get_nx_graph_from_xml(filename):
     tree = ET.parse(filename)
@@ -76,7 +78,44 @@ def get_node_port_ip_on_sw(filename, node_name, ip):
                                 return node.attrib["client_id"], port_ip
 
 
+def get_mac_by_ip_from_config(ip):
+    for i in range(len(Switch)):
+        for port_i in Switch[i]["ports"]:
+            if port_i["ip"] == ip:
+                return port_i["hwaddr"]
+
+
+def get_connected_sw_mapping(filename):
+    ConnectedSWKeys = {}
+    tree = ET.parse(filename)
+    root = tree.getroot()
+    interface_ip_mapping = {}
+    sw_list = [sw["name"] for sw in switch]
+    for node in root:
+        if str.endswith(node.tag, "node"):
+            for iface in node:
+                if str.endswith(iface.tag, "interface"):
+                    for ip in iface:
+                        if str.endswith(ip.tag, "ip"):
+                            interface_ip_mapping[iface.attrib["client_id"]] = ip.attrib["address"]
+    for link in root:
+        if str.endswith(link.tag, "link"):
+            ref = []
+            for l in link:
+                if str.endswith(l.tag, "interface_ref"):
+                    ref.append(l.attrib["client_id"])
+            assert len(ref) == 2
+            if ref[0].split(":")[0] in sw_list and ref[1].split(":")[0] in sw_list:
+                ip1 = interface_ip_mapping[ref[0]]
+                ip2 = interface_ip_mapping[ref[1]]
+                hwaddr1 = get_mac_by_ip_from_config(ip1)
+                hwaddr2 = get_mac_by_ip_from_config(ip2)
+                ConnectedSWKeys[hwaddr1] = hwaddr2
+    return ConnectedSWKeys
+
+
 if __name__ == "__main__":
+    pprint(get_connected_sw_mapping("topo.xml"))
     G = get_nx_graph_from_xml("topo.xml")
     pos = nx.spring_layout(G, seed=3)
     nx.draw(G, pos, with_labels=True)
