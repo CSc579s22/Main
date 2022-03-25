@@ -17,7 +17,7 @@
 # https://github.com/faucetsdn/ryu/blob/master/ryu/app/simple_monitor_13.py
 import json
 from collections import defaultdict
-from dataclasses import dataclass
+# from dataclasses import dataclass
 from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
@@ -59,7 +59,7 @@ from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
 
-@dataclass
+# @dataclass
 class Stat:
     prev_rx_bytes_count: int = 0
     prev_tx_bytes_count: int = 0
@@ -158,9 +158,11 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         msg = ev.msg
         datapath = msg.datapath
         ofproto = datapath.ofproto
+        parser = datapath.ofproto_parser
+        in_port = msg.match['in_port']
 
         pkt = packet.Packet(msg.data)
-        eth = pkt.get_protocol(ethernet.ethernet)
+        eth = pkt.get_protocols(ethernet.ethernet)[0]
 
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
             # ignore lldp packet
@@ -171,29 +173,29 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
 
-        self.logger.info("packet in %s %s %s %s", dpid, src, dst, msg.in_port)
+        self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_port)
 
         # learn a mac address to avoid FLOOD next time.
-        self.mac_to_port[dpid][src] = msg.in_port
+        self.mac_to_port[dpid][src] = in_port
 
         if dst in self.mac_to_port[dpid]:
             out_port = self.mac_to_port[dpid][dst]
         else:
             out_port = ofproto.OFPP_FLOOD
 
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+        actions = [parser.OFPActionOutput(out_port)]
 
         # install a flow to avoid packet_in next time
         if out_port != ofproto.OFPP_FLOOD:
-            self.add_flow(datapath, msg.in_port, dst, src, actions)
+            match = parser.OFPMatch(in_port=in_port, eth_dst=dst, eth_src=src)
+            self.add_flow(datapath, 1, match, actions)
 
         data = None
         if msg.buffer_id == ofproto.OFP_NO_BUFFER:
             data = msg.data
 
-        out = datapath.ofproto_parser.OFPPacketOut(
-            datapath=datapath, buffer_id=msg.buffer_id, in_port=msg.in_port,
-            actions=actions, data=data)
+        out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
+                                  in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out)
 
     # It seems we might only need port stats to calculate throughput and bandwidth
