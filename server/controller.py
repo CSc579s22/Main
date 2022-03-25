@@ -49,7 +49,9 @@ from config import MaxInt
 from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name, EnableSABR
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 from path import best_target_selection
-from queue_db import put_one
+from queue_db import put_one, db, QueueSize
+import queue
+
 
 @dataclass
 class Stat:
@@ -280,7 +282,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     "portno": port.port_no,
                     "hwaddr": port.hw_addr,
                     "name": port.name.decode("utf-8")}
-
+            db["%016x" % port.dpid][port.port_no]["tx"] = queue.Queue(maxsize=QueueSize)
+            db["%016x" % port.dpid][port.port_no]["rx"] = queue.Queue(maxsize=QueueSize)
             self.table_port_info.update_one({"dpid": post["dpid"], "hwaddr": post["hwaddr"]}, {"$set": post}, upsert=True)
             node_name = port_addr_to_node_name(port.hw_addr)
             self.topo.add_node(node_name)
