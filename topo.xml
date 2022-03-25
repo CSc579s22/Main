@@ -1,345 +1,346 @@
 <rspec xmlns="http://www.geni.net/resources/rspec/3" xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" xmlns:tour="http://www.protogeni.net/resources/rspec/ext/apt-tour/1" xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.geni.net/resources/rspec/3    http://www.geni.net/resources/rspec/3/request.xsd" type="request">
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw_origin" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt067" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330163">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw_origin" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt071" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330223">
     <sliver_type name="emulab-xen"/>
-    <interface client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330171" mac_address="02571f9a0410">
+    <interface client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330234" mac_address="0250e3d50364">
       <ip address="10.10.10.3" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <interface client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330174" mac_address="02266364b47a">
+    <interface client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330237" mac_address="021df4c3bb0e">
       <ip address="10.10.10.5" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <interface client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330177" mac_address="02ca2ab66227">
+    <interface client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330240" mac_address="026460077193">
       <ip address="10.10.10.7" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <interface client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330179" mac_address="02a1afdc4cf7">
+    <interface client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330242" mac_address="02bf1f1ad526">
       <ip address="10.10.10.8" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="aptvm067-5" hardware_type="pcvm"/>
-    <host name="sw_origin.Test2.qoesdn-PG0.apt.emulab.net"/>
+    <emulab:vnode name="aptvm071-1" hardware_type="pcvm"/>
+    <host name="sw_origin.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25613" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25613" username="f_amri"/>
-      <emulab:console server="apt067.apt.emulab.net"/>
+      <login authentication="ssh-keys" hostname="apt071.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt071.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt071.apt.emulab.net"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330152">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt072" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330228">
     <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330170" mac_address="0222b63d609b">
+    <interface client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330233" mac_address="0239fefdb76f">
       <ip address="10.10.10.2" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <interface client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330182" mac_address="02b185eaa299">
-      <ip address="10.10.10.10" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330245" mac_address="02d1bd099db4">
+      <ip address="10.10.10.9" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <interface client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330185" mac_address="0264efb1d80e">
-      <ip address="10.10.10.12" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330248" mac_address="025b3d94178e">
+      <ip address="10.10.10.11" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="aptvm068-2" hardware_type="pcvm"/>
-    <host name="sw1.Test2.qoesdn-PG0.apt.emulab.net"/>
+    <emulab:vnode name="aptvm072-2" hardware_type="pcvm"/>
+    <host name="sw1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25610" username="f_amri"/>
+      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt072.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt070" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330221">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330236" mac_address="02a4e58f730e">
+      <ip address="10.10.10.4" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330251" mac_address="021148dbcc2c">
+      <ip address="10.10.10.13" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330254" mac_address="023b81813c51">
+      <ip address="10.10.10.15" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm070-1" hardware_type="pcvm"/>
+    <host name="sw2.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt070.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330218">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330239" mac_address="027ea6b9a495">
+      <ip address="10.10.10.6" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330257" mac_address="0293578d4100">
+      <ip address="10.10.10.17" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330260" mac_address="027f4c174603">
+      <ip address="10.10.10.19" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330276" mac_address="02cd0a2e64c8">
+      <ip address="10.10.10.30" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-5" hardware_type="pcvm"/>
+    <host name="sw3.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25213" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25213" username="f_amri"/>
       <emulab:console server="apt068.apt.emulab.net"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt067" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330160">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330173" mac_address="02d5843f5f7c">
-      <ip address="10.10.10.4" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330188" mac_address="02c073be045e">
-      <ip address="10.10.10.14" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330191" mac_address="0224177a0141">
-      <ip address="10.10.10.16" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm067-2" hardware_type="pcvm"/>
-    <host name="sw2.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25610" username="f_amri"/>
-      <emulab:console server="apt067.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330157">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330176" mac_address="02d8859a4f13">
-      <ip address="10.10.10.6" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330194" mac_address="025bdd0ee137">
-      <ip address="10.10.10.18" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330197" mac_address="029d579e14ed">
-      <ip address="10.10.10.20" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330213" mac_address="029a17bd034f">
-      <ip address="10.10.10.31" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm069-10" hardware_type="pcvm"/>
-    <host name="sw3.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25613" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25613" username="f_amri"/>
-      <emulab:console server="apt069.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="server" exclusive="true" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt079" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330153">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="server" exclusive="true" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt002" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330225">
     <sliver_type name="raw-pc"/>
-    <interface client_id="server:if-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt079:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330180" mac_address="025a4659d2dc">
-      <ip address="10.10.10.9" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="server:if-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt002:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330243" mac_address="02255d6da74d">
+      <ip address="10.10.10.1" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="apt079" hardware_type="r320"/>
-    <host name="server.Test2.qoesdn-PG0.apt.emulab.net" ipv4="128.110.96.79"/>
+    <emulab:routable_control_ip/>
+    <emulab:vnode name="apt002" hardware_type="c6220"/>
+    <host name="server.Test-Routable.qoesdn-PG0.apt.emulab.net" ipv4="128.110.96.2"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt079.apt.emulab.net" port="22" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt079.apt.emulab.net" port="22" username="f_amri"/>
+      <login authentication="ssh-keys" hostname="apt002.apt.emulab.net" port="22" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt002.apt.emulab.net" port="22" username="f_amri"/>
       <emulab:console server="boss.apt.emulab.net"/>
       <emulab:recovery available="true"/>
       <emulab:powercycle available="true"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt072" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330167">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt072" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330229">
     <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330183" mac_address="02b6aa7af9c1">
-      <ip address="10.10.10.11" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330246" mac_address="0246cb74459a">
+      <ip address="10.10.10.10" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="aptvm072-3" hardware_type="pcvm"/>
-    <host name="sw1-cache1.Test2.qoesdn-PG0.apt.emulab.net"/>
+    <emulab:vnode name="aptvm072-4" hardware_type="pcvm"/>
+    <host name="sw1-cache1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25610" username="f_amri"/>
+      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25211" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt072.apt.emulab.net" port="25211" username="f_amri"/>
       <emulab:console server="apt072.apt.emulab.net"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt071" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330166">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw1c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt065" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330224">
     <sliver_type name="emulab-xen"/>
-    <interface client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330186" mac_address="025c12a36bc2">
-      <ip address="10.10.10.13" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt065:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330249" mac_address="029e9399182c">
+      <ip address="10.10.10.12" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="aptvm071-4" hardware_type="pcvm"/>
-    <host name="sw1c1.Test2.qoesdn-PG0.apt.emulab.net"/>
+    <emulab:vnode name="aptvm065-1" hardware_type="pcvm"/>
+    <host name="sw1c1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt071.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt071.apt.emulab.net" port="25610" username="f_amri"/>
-      <emulab:console server="apt071.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt067" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330161">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330189" mac_address="02e9b27b891f">
-      <ip address="10.10.10.15" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm067-3" hardware_type="pcvm"/>
-    <host name="sw2-cache1.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25611" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25611" username="f_amri"/>
-      <emulab:console server="apt067.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt067" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330162">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330192" mac_address="02fbc2bf1f51">
-      <ip address="10.10.10.17" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm067-4" hardware_type="pcvm"/>
-    <host name="sw2c1.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25612" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25612" username="f_amri"/>
-      <emulab:console server="apt067.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330158">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330195" mac_address="02526ad04d87">
-      <ip address="10.10.10.19" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm069-11" hardware_type="pcvm"/>
-    <host name="sw3-cache1.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25614" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25614" username="f_amri"/>
-      <emulab:console server="apt069.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt070" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330164">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330198" mac_address="02f0d6bf0478">
-      <ip address="10.10.10.21" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm070-2" hardware_type="pcvm"/>
-    <host name="sw3c1.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25610" username="f_amri"/>
-      <emulab:console server="apt070.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330154">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330200" mac_address="0200ea6cfe35">
-      <ip address="10.10.10.22" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330203" mac_address="021771fb0dbd">
-      <ip address="10.10.10.24" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330206" mac_address="026b13970158">
-      <ip address="10.10.10.26" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330209" mac_address="02266242524a">
-      <ip address="10.10.10.28" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <interface client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330212" mac_address="028c12707d4e">
-      <ip address="10.10.10.30" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm069-7" hardware_type="pcvm"/>
-    <host name="sw-r.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25610" username="f_amri"/>
-      <emulab:console server="apt069.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330155">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330201" mac_address="0207813ddd06">
-      <ip address="10.10.10.23" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm069-8" hardware_type="pcvm"/>
-    <host name="sw-r-c1.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25611" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25611" username="f_amri"/>
-      <emulab:console server="apt069.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c2" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt066" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330165">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt066:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330204" mac_address="021ea64885c5">
-      <ip address="10.10.10.25" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm066-2" hardware_type="pcvm"/>
-    <host name="sw-r-c2.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt066.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt066.apt.emulab.net" port="25610" username="f_amri"/>
-      <emulab:console server="apt066.apt.emulab.net"/>
-      <emulab:imageable available="true"/>
-    </services>
-  </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c3" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt065" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330159">
-    <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt065:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330207" mac_address="02f05702b2b0">
-      <ip address="10.10.10.27" netmask="255.255.255.0" type="ipv4"/>
-    </interface>
-    <emulab:vnode name="aptvm065-2" hardware_type="pcvm"/>
-    <host name="sw-r-c3.Test2.qoesdn-PG0.apt.emulab.net"/>
-    <services>
-      <login authentication="ssh-keys" hostname="apt065.apt.emulab.net" port="25610" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt065.apt.emulab.net" port="25610" username="f_amri"/>
+      <login authentication="ssh-keys" hostname="apt065.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt065.apt.emulab.net" port="25210" username="f_amri"/>
       <emulab:console server="apt065.apt.emulab.net"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c4" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330156">
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt070" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330222">
     <sliver_type name="emulab-xen"/>
-    <interface client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330210" mac_address="020e1b3fdeab">
-      <ip address="10.10.10.29" netmask="255.255.255.0" type="ipv4"/>
+    <interface client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330252" mac_address="022d06138cf5">
+      <ip address="10.10.10.14" netmask="255.255.255.0" type="ipv4"/>
     </interface>
-    <emulab:vnode name="aptvm069-9" hardware_type="pcvm"/>
-    <host name="sw-r-c4.Test2.qoesdn-PG0.apt.emulab.net"/>
+    <emulab:vnode name="aptvm070-3" hardware_type="pcvm"/>
+    <host name="sw2-cache1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
     <services>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25612" username="clarkzjw"/>
-      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25612" username="f_amri"/>
+      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25211" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt070.apt.emulab.net" port="25211" username="f_amri"/>
+      <emulab:console server="apt070.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw2c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt069" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330226">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330255" mac_address="02480be0dfb7">
+      <ip address="10.10.10.16" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm069-1" hardware_type="pcvm"/>
+    <host name="sw2c1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt069.apt.emulab.net" port="25210" username="f_amri"/>
       <emulab:console server="apt069.apt.emulab.net"/>
       <emulab:imageable available="true"/>
     </services>
   </node>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330169" vlantag="272">
-    <interface_ref client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330170"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330171"/>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3-cache1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330219">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330258" mac_address="023a0a4c109c">
+      <ip address="10.10.10.18" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-6" hardware_type="pcvm"/>
+    <host name="sw3-cache1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25214" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25214" username="f_amri"/>
+      <emulab:console server="apt068.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw3c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330220">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330261" mac_address="02cd6ef26436">
+      <ip address="10.10.10.20" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-7" hardware_type="pcvm"/>
+    <host name="sw3c1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25215" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25215" username="f_amri"/>
+      <emulab:console server="apt068.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330215">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330263" mac_address="02e7f232f858">
+      <ip address="10.10.10.21" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330266" mac_address="028b711cea6c">
+      <ip address="10.10.10.23" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330269" mac_address="029975bbda24">
+      <ip address="10.10.10.25" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330272" mac_address="0276b51997be">
+      <ip address="10.10.10.27" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <interface client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330275" mac_address="023c58252745">
+      <ip address="10.10.10.29" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-1" hardware_type="pcvm"/>
+    <host name="sw-r.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt068.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c1" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt066" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330214">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt066:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330264" mac_address="02ce83c3e0f7">
+      <ip address="10.10.10.22" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm066-1" hardware_type="pcvm"/>
+    <host name="sw-r-c1.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt066.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt066.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt066.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c2" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330216">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330267" mac_address="0209bd00724d">
+      <ip address="10.10.10.24" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-3" hardware_type="pcvm"/>
+    <host name="sw-r-c2.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25211" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25211" username="f_amri"/>
+      <emulab:console server="apt068.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c3" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt068" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330217">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330270" mac_address="02d7bcf859c0">
+      <ip address="10.10.10.26" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm068-4" hardware_type="pcvm"/>
+    <host name="sw-r-c3.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25212" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt068.apt.emulab.net" port="25212" username="f_amri"/>
+      <emulab:console server="apt068.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <node xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1" client_id="sw-r-c4" exclusive="false" component_manager_id="urn:publicid:IDN+apt.emulab.net+authority+cm" component_id="urn:publicid:IDN+apt.emulab.net+node+apt067" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330227">
+    <sliver_type name="emulab-xen"/>
+    <interface client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330273" mac_address="02300706c21f">
+      <ip address="10.10.10.28" netmask="255.255.255.0" type="ipv4"/>
+    </interface>
+    <emulab:vnode name="aptvm067-1" hardware_type="pcvm"/>
+    <host name="sw-r-c4.Test-Routable.qoesdn-PG0.apt.emulab.net"/>
+    <services>
+      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25210" username="clarkzjw"/>
+      <login authentication="ssh-keys" hostname="apt067.apt.emulab.net" port="25210" username="f_amri"/>
+      <emulab:console server="apt067.apt.emulab.net"/>
+      <emulab:imageable available="true"/>
+    </services>
+  </node>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330232" vlantag="284">
+    <interface_ref client_id="sw1:if-sw1-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330233"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330234"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330172">
-    <interface_ref client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330173"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330174"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330235" vlantag="279">
+    <interface_ref client_id="sw2:if-sw2-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330236"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330237"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw3" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330175" vlantag="262">
-    <interface_ref client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330176"/>
-    <interface_ref client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330177"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-sw3" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330238" vlantag="283">
+    <interface_ref client_id="sw3:if-sw3-sw_origin" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330239"/>
+    <interface_ref client_id="sw_origin:if-sw_origin-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330240"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-server" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330178" vlantag="268">
-    <interface_ref client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330179"/>
-    <interface_ref client_id="server:if-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt079:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330180"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw_origin-server" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330241" vlantag="278">
+    <interface_ref client_id="sw_origin:if-sw_origin-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330242"/>
+    <interface_ref client_id="server:if-server" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt002:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330243"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330181" vlantag="276">
-    <interface_ref client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330182"/>
-    <interface_ref client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330183"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330244">
+    <interface_ref client_id="sw1:if-sw1-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330245"/>
+    <interface_ref client_id="sw1-cache1:if-cache1-sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330246"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330184" vlantag="263">
-    <interface_ref client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330185"/>
-    <interface_ref client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt071:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330186"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw1c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330247" vlantag="286">
+    <interface_ref client_id="sw1:if-sw1c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt072:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330248"/>
+    <interface_ref client_id="sw1c1:if-c1sw1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt065:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330249"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330187">
-    <interface_ref client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330188"/>
-    <interface_ref client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330189"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330250">
+    <interface_ref client_id="sw2:if-sw2-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330251"/>
+    <interface_ref client_id="sw2-cache1:if-cache1-sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330252"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330190">
-    <interface_ref client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330191"/>
-    <interface_ref client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330192"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw2c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330253" vlantag="282">
+    <interface_ref client_id="sw2:if-sw2c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330254"/>
+    <interface_ref client_id="sw2c1:if-c1sw2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330255"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330193">
-    <interface_ref client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330194"/>
-    <interface_ref client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330195"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3-cache1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330256">
+    <interface_ref client_id="sw3:if-sw3-cache1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330257"/>
+    <interface_ref client_id="sw3-cache1:if-cache1-sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330258"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330196" vlantag="258">
-    <interface_ref client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330197"/>
-    <interface_ref client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt070:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330198"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw3c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330259">
+    <interface_ref client_id="sw3:if-sw3c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330260"/>
+    <interface_ref client_id="sw3c1:if-c1sw3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330261"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330199">
-    <interface_ref client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330200"/>
-    <interface_ref client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330201"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c1" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330262" vlantag="287">
+    <interface_ref client_id="sw-r:if-sw-r-c1" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330263"/>
+    <interface_ref client_id="sw-r-c1:if-c1sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt066:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330264"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330202" vlantag="269">
-    <interface_ref client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330203"/>
-    <interface_ref client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt066:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330204"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330265">
+    <interface_ref client_id="sw-r:if-sw-r-c2" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330266"/>
+    <interface_ref client_id="sw-r-c2:if-c2sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330267"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c3" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330205" vlantag="275">
-    <interface_ref client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330206"/>
-    <interface_ref client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt065:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330207"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c3" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330268">
+    <interface_ref client_id="sw-r:if-sw-r-c3" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330269"/>
+    <interface_ref client_id="sw-r-c3:if-c3sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330270"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c4" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330208">
-    <interface_ref client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330209"/>
-    <interface_ref client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330210"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c4" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330271" vlantag="285">
+    <interface_ref client_id="sw-r:if-sw-r-c4" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330272"/>
+    <interface_ref client_id="sw-r-c4:if-c4sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt067:eth2" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330273"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
-  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330211">
-    <interface_ref client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330212"/>
-    <interface_ref client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt069:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330213"/>
+  <link xmlns:jacks="http://www.protogeni.net/resources/rspec/ext/jacks/1" client_id="link-sw-r-c" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330274">
+    <interface_ref client_id="sw-r:if-sw-r-c" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330275"/>
+    <interface_ref client_id="sw3:if-c-sw-r" component_id="urn:publicid:IDN+apt.emulab.net+interface+apt068:lo0" sliver_id="urn:publicid:IDN+apt.emulab.net+sliver+330276"/>
     <component_manager name="urn:publicid:IDN+apt.emulab.net+authority+cm"/>
   </link>
   <rspec_tour xmlns="http://www.protogeni.net/resources/rspec/ext/apt-tour/1">
@@ -347,7 +348,7 @@
 Multi layer Topology
 </description>
   </rspec_tour>
-  <emulab:portal name="cloudlab" url="https://www.cloudlab.us/status.php?uuid=81d9b6e0-ac07-11ec-b318-e4434b2381fc" project="QoESDN" experiment="Test2"/>
+  <emulab:portal name="cloudlab" url="https://www.cloudlab.us/status.php?uuid=1f7de390-ac14-11ec-b318-e4434b2381fc" project="QoESDN" experiment="Test-Routable"/>
   <rs:site_info xmlns:rs="http://www.protogeni.net/resources/rspec/ext/site-info/1">
     <rs:location country="US" latitude="40.750714" longitude="-111.893288"/>
   </rs:site_info>

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # install openvswitch
-sudo apt update
-sudo apt install -y openvswitch-switch
+sudo apt-get update
+sudo apt-get install -y openvswitch-switch
 sudo systemctl enable openvswitch-switch
 sudo systemctl restart openvswitch-switch
 sudo ovs-vsctl --version
