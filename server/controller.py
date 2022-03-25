@@ -17,7 +17,7 @@
 # https://github.com/faucetsdn/ryu/blob/master/ryu/app/simple_monitor_13.py
 import json
 from collections import defaultdict
-# from dataclasses import dataclass
+from dataclasses import dataclass
 from datetime import datetime
 from operator import attrgetter
 from pathlib import Path
@@ -59,7 +59,7 @@ from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 
 
-# @dataclass
+@dataclass
 class Stat:
     prev_rx_bytes_count: int = 0
     prev_tx_bytes_count: int = 0
