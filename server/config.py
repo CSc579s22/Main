@@ -1,7 +1,7 @@
 import sys
 
 # Open vSwitch port status monitoring interval in seconds
-Interval = 5
+Interval = 1
 # MongoDB URI
 MongoURI = "mongodb://mongo:27017/"
 MaxInt = sys.maxsize

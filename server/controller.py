@@ -240,8 +240,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 #     self.draw_topo()
         if EnableSABR:
             self.update_best_cache_server_for_each_client()
-        # print(tabulate(table, headers=table_headers))
-        # print("\n")
+        print(tabulate(table, headers=table_headers))
+        print("\n")
 
     def get_hwaddr_from_portno(self, dpid, port_no):
         res = self.table_port_info.find({"dpid": dpid, "portno": port_no}).limit(1)
