@@ -14,11 +14,11 @@
 8. Build Docker image and push to DockerHub using [`server/Dockerfile`](./server/Dockerfile), update `image` in [`server/docker-compose.yaml`](./server/docker-compose.yaml)
 ```bash
 cd server
-docker build -t clarkzjw/sdncontroller:0.1 .
+sudo docker build -t clarkzjw/sabrcontroller:0.1 .
 ```
 9. SSH login to `server` node, start controller using [`docker-compose.yaml`](./server/docker-compose.yaml)
 ```bash
-docker-compose up -d
+sudo docker-compose up -d
 ```
 
 `cd` into the `video` directory, upload all the `*.mpd` files into `video/BigBuckBunny` directory

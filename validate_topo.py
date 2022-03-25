@@ -6,6 +6,7 @@ from pprint import pprint
 from config import switch
 from server.config import Switch
 
+
 def get_nx_graph_from_xml(filename):
     tree = ET.parse(filename)
     root = tree.getroot()
