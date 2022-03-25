@@ -221,7 +221,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                         "TXpackets": stat.tx_packets, "TXbytes": stat.tx_bytes,
                         "TXerrors": stat.tx_errors, "TXbandwidth": cur_tx_throughput}
                 # self.table_port_monitor.insert_one(post)
-                put_one("%016x" % ev.msg.datapath.id, stat.port_no, stat.tx_bytes, stat.rx_bytes)
+                put_one("%016x" % ev.msg.datapath.id, stat.port_no, cur_tx_throughput, cur_rx_throughput)
                 table.append(["%016x" % ev.msg.datapath.id,
                               stat.port_no,
                               stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors, rx_bw_arima,
