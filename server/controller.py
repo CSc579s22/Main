@@ -406,9 +406,10 @@ class SABRController(ControllerBase):
         for node in NodeList:
             if node["ip"] == ip:
                 port_name = node["name"]
-        topo = self.table_topo_info.find_one({"id": 1})
-        data = json.loads(topo["info"])
-        self.topo = json_graph.node_link_graph(data)
+        # topo = self.table_topo_info.find_one({"id": 1})
+        # data = json.loads(topo["info"])
+        # self.topo = json_graph.node_link_graph(data)
+        self.topo = global_topo
         hops = MaxInt
         nearest = {}
 
