@@ -20,10 +20,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from operator import attrgetter
-from pathlib import Path
 from pprint import pprint
 
-import matplotlib.pyplot as plt
 import networkx as nx
 from bson import json_util
 from networkx.readwrite import json_graph
@@ -33,30 +31,24 @@ from pymongo.errors import ConnectionFailure
 from ryu.app import simple_switch_13
 from ryu.app.wsgi import ControllerBase, WSGIApplication, route, Response
 from ryu.controller import ofp_event
-from ryu.controller.handler import MAIN_DISPATCHER, DEAD_DISPATCHER
+from ryu.controller.handler import DEAD_DISPATCHER
+from ryu.controller.handler import MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.lib import dpid as dpid_lib
 from ryu.lib import hub
+from ryu.lib.packet import ether_types
+from ryu.lib.packet import ethernet
+from ryu.lib.packet import packet
 from ryu.ofproto import ofproto_v1_4
 from ryu.topology import event
-from ryu.base import app_manager
-from ryu.controller import ofp_event
-from ryu.controller.handler import MAIN_DISPATCHER
-from ryu.controller.handler import set_ev_cls
-from ryu.ofproto import ofproto_v1_0
-from ryu.lib.mac import haddr_to_bin
-from ryu.lib.packet import packet
-from ryu.lib.packet import ethernet
-from ryu.lib.packet import ether_types
 from tabulate import tabulate
-from config import MaxInt
-from path import best_target_selection
 
 from arima import ARIMA
 from config import Interval, MongoURI
+from config import MaxInt
 from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name, EnableSABR
-from config import Switch, ConnectedSwitchPort
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
+from path import best_target_selection
 
 
 @dataclass
@@ -139,20 +131,6 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         req = parser.OFPPortStatsRequest(datapath, 0, ofproto.OFPP_ANY)
         datapath.send_msg(req)
 
-    # def add_flow(self, datapath, in_port, dst, src, actions):
-    #     ofproto = datapath.ofproto
-    #
-    #     match = datapath.ofproto_parser.OFPMatch(
-    #         in_port=in_port,
-    #         dl_dst=haddr_to_bin(dst), dl_src=haddr_to_bin(src))
-    #
-    #     mod = datapath.ofproto_parser.OFPFlowMod(
-    #         datapath=datapath, match=match, cookie=0,
-    #         command=ofproto.OFPFC_ADD, idle_timeout=0, hard_timeout=0,
-    #         priority=ofproto.OFP_DEFAULT_PRIORITY,
-    #         flags=ofproto.OFPFF_SEND_FLOW_REM, actions=actions)
-    #     datapath.send_msg(mod)
-
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
@@ -173,7 +151,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         dpid = datapath.id
         self.mac_to_port.setdefault(dpid, {})
 
-        self.logger.info("packet in %s %s %s %s", dpid, src, dst, in_port)
+        self.logger.info("======packet in %s %s %s %s", dpid, src, dst, in_port)
 
         # learn a mac address to avoid FLOOD next time.
         self.mac_to_port[dpid][src] = in_port
@@ -262,8 +240,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                 #     self.draw_topo()
         if EnableSABR:
             self.update_best_cache_server_for_each_client()
-        print(tabulate(table, headers=table_headers))
-        print("\n")
+        # print(tabulate(table, headers=table_headers))
+        # print("\n")
 
     def get_hwaddr_from_portno(self, dpid, port_no):
         res = self.table_port_info.find({"dpid": dpid, "portno": port_no}).limit(1)
