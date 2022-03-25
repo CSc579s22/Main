@@ -65,7 +65,7 @@ prev_stats = defaultdict(lambda: defaultdict(Stat))
 best_cache_server_for_each_client = defaultdict()
 rest_instance_name = "sabr_monitor"
 route_name = "sabr"
-global_topo = nx.Graph()
+# global_topo = nx.Graph()
 
 
 class SABRMonitor(simple_switch_13.SimpleSwitch13):
@@ -112,10 +112,10 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
             hub.sleep(Interval)
 
     def update_best_cache_server_for_each_client(self):
-        # topo = self.table_topo_info.find_one({"id": 1})
-        # data = json.loads(topo["info"])
-        # self.topo = json_graph.node_link_graph(data)
-        self.topo = global_topo
+        topo = self.table_topo_info.find_one({"id": 1})
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
+        # self.topo = global_topo
 
         cache_list = [cache["name"] for cache in get_cache_list()]
         client_list = [node["name"] for node in NodeList]
@@ -294,10 +294,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         self.init_nearest_cache_server_list()
 
     def save_topo(self):
-        global global_topo
-        global_topo = self.topo
-        # post = {"id": 1, "info": json.dumps(json_graph.node_link_data(self.topo))}
-        # self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
+        post = {"id": 1, "info": json.dumps(json_graph.node_link_data(self.topo))}
+        self.table_topo_info.update_one({"id": 1}, {"$set": post}, upsert=True)
 
     def init_nearest_cache_server_list(self):
         print("===START initial cache server selection for each client===")
@@ -406,10 +404,9 @@ class SABRController(ControllerBase):
         for node in NodeList:
             if node["ip"] == ip:
                 port_name = node["name"]
-        # topo = self.table_topo_info.find_one({"id": 1})
-        # data = json.loads(topo["info"])
-        # self.topo = json_graph.node_link_graph(data)
-        self.topo = global_topo
+        topo = self.table_topo_info.find_one({"id": 1})
+        data = json.loads(topo["info"])
+        self.topo = json_graph.node_link_graph(data)
         hops = MaxInt
         nearest = {}
 
