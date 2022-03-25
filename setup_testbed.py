@@ -3,6 +3,7 @@ import paramiko
 from config import switch, username, server, cache, node
 from get_testbed_info import get_ip_mac, output
 from pprint import pprint
+from validate_topo import get_connected_sw_mapping
 
 
 def install_ovs(name, hostname, port):
@@ -69,8 +70,9 @@ def install_client(name, hostname, port):
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(hostname, port=port, username=username)
         print("Connecting {} {}:{}".format(name, hostname, port))
-        _, stdout, _ = client.exec_command(command)
+        _, stdout, stderr = client.exec_command(command)
         output(stdout)
+        output(stderr)
     except ... as e:
         print(e)
     finally:
@@ -146,5 +148,8 @@ if __name__ == "__main__":
         port = c["port"]
         install_client(name, hostname, port)
 
-    print("\nsave the following sw output")
+    print("\nupdate `Switch` in server/config.py")
     pprint(sw_list)
+
+    print("\nupdate `ConnectedSwitchPort` in server/config.py")
+    pprint(get_connected_sw_mapping("topo.xml"))

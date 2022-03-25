@@ -45,17 +45,10 @@ for i in range(number_of_backbone_regions):
     link.addInterface(
         sw_origin.addInterface("if-sw_origin-sw{}".format(i + 1), pg.IPv4Address(get_ip(), mask)))
 
-for i in range(len(backbone_sw)):
-    for j in range(i+1, len(backbone_sw)):
-        link = request.Link("link-sw{}-sw{}".format(i+1, j+1))
-        link.Site(site_name)
-        link.addInterface(backbone_sw[i].addInterface("if-sw{}-sw{}".format(i+1, j+1), pg.IPv4Address(get_ip(), mask)))
-        link.addInterface(backbone_sw[j].addInterface("if-sw{}-sw{}".format(j+1, i+1), pg.IPv4Address(get_ip(), mask)))
-
 # Origin server
 node_server = request.RawPC('server')
 if_sw = sw_origin.addInterface("if-sw_origin-server", pg.IPv4Address(get_ip(), mask))
-if_server = node_server.addInterface('if-server', pg.IPv4Address(get_ip(), mask))
+if_server = node_server.addInterface('if-server', pg.IPv4Address("10.10.10.1", mask))
 link = request.Link("link-sw_origin-server")
 link.Site(site_name)
 link.addInterface(if_sw)

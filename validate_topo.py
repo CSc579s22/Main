@@ -2,7 +2,6 @@ import xml.etree.ElementTree as ET
 
 import networkx as nx
 from matplotlib import pyplot as plt
-from pprint import pprint
 from config import switch
 from server.config import Switch
 
@@ -116,7 +115,6 @@ def get_connected_sw_mapping(filename):
 
 
 if __name__ == "__main__":
-    pprint(get_connected_sw_mapping("topo.xml"))
     G = get_nx_graph_from_xml("topo.xml")
     pos = nx.spring_layout(G, seed=3)
     nx.draw(G, pos, with_labels=True)

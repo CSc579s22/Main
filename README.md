@@ -7,10 +7,10 @@
 1. Create a CloudLab profile using [`multilayer.py`](./server/topology/multilayer.py)
 2. Instantiate an experiment using the profile created above
 3. After the experiment is ready, copy the `Manifest` from CloudLab experiment details page into [`topo.xml`](./topo.xml)
-4. Run [`validate_topo.py`](./validate_topo.py) to validate topology, update `ConnectedSwitchPort` in [`server/config.py`](./server/config.py) using the output
+4. Run [`validate_topo.py`](./validate_topo.py) to validate topology
 5. Update server login information (username, hostname, port) in [`config.py`](./config.py)
-6. Run [`get_testbed_info.py`](./get_testbed_info.py), update `Node` in [`server/config.py`](./server/config.py) using the information printed in the last step
-7. Run [`setup_testbed.py`](./setup_testbed.py) to install dependencies on nodes, update `Switch` in [`server/config.py`](./server/config.py)
+6. Run [`get_testbed_info.py`](./get_testbed_info.py), update `NodeList` in [`server/config.py`](./server/config.py) using the information printed in the last step
+7. Run [`setup_testbed.py`](./setup_testbed.py) to install dependencies on nodes, update `Switch` in [`server/config.py`](./server/config.py), update `ConnectedSwitchPort` in [`server/config.py`](./server/config.py) using the output
 8. Build Docker image and push to DockerHub using [`server/Dockerfile`](./server/Dockerfile), update `image` in [`server/docker-compose.yaml`](./server/docker-compose.yaml)
 ```bash
 cd server
