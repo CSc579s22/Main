@@ -47,6 +47,7 @@ for i in range(number_of_backbone_regions):
 
 # Origin server
 node_server = request.RawPC('server')
+node_server.routable_control_ip = True
 if_sw = sw_origin.addInterface("if-sw_origin-server", pg.IPv4Address(get_ip(), mask))
 if_server = node_server.addInterface('if-server', pg.IPv4Address("10.10.10.1", mask))
 link = request.Link("link-sw_origin-server")
