@@ -72,7 +72,8 @@ Switch = [{'dpid': '000096472e9e0648',
                       'ip': '10.10.10.3',
                       'name': 'eth4'}]}]
 
-NodeList = [{'hwaddr': '02:25:5d:6d:a7:4d',
+NodeList = [{'cache': True,
+             'hwaddr': '02:25:5d:6d:a7:4d',
              'ip': '10.10.10.1',
              'name': 'server',
              'port': '02:bf:1f:1a:d5:26'},
