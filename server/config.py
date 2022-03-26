@@ -2,6 +2,8 @@ import sys
 
 # Open vSwitch port status monitoring interval in seconds
 Interval = 1
+# Queue size to store previous stats
+QueueSize = 10
 # MongoDB URI
 MongoURI = "mongodb://mongo:27017/"
 MaxInt = sys.maxsize
@@ -72,7 +74,7 @@ Switch = [{'dpid': '000096472e9e0648',
                       'ip': '10.10.10.3',
                       'name': 'eth4'}]}]
 
-NodeList = [{'cache': True,
+NodeList = [{'cache': False,
              'hwaddr': '02:25:5d:6d:a7:4d',
              'ip': '10.10.10.1',
              'name': 'server',
