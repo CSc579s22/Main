@@ -49,6 +49,8 @@ from config import MaxInt
 from config import NodeList, AvailableMPD, get_client_list, node_name_to_ip, ip_to_node_name, EnableSABR
 from config import get_cache_list, dpid_to_name, port_addr_to_node_name
 from path import best_target_selection
+from queue_db import put_one, db, QueueSize
+import queue
 
 
 @dataclass
@@ -63,6 +65,7 @@ prev_stats = defaultdict(lambda: defaultdict(Stat))
 best_cache_server_for_each_client = defaultdict()
 rest_instance_name = "sabr_monitor"
 route_name = "sabr"
+# global_topo = nx.Graph()
 
 
 class SABRMonitor(simple_switch_13.SimpleSwitch13):
@@ -75,17 +78,17 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         wsgi.register(SABRController, {rest_instance_name: self})
         self.monitor_thread = hub.spawn(self._monitor)
         self.datapaths = {}
-        self.topo_raw_switches = []
-        self.topo_raw_links = []
+        # self.topo_raw_switches = []
+        # self.topo_raw_links = []
         self.topo = nx.Graph()
         try:
             self.mongo_client = MongoClient(MongoURI)
             print("Connected to MongoDB")
             self.db = self.mongo_client.opencdn
-            self.table_port_monitor = self.db.portmonitor
+            # self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
             self.table_topo_info = self.db.topoinfo
-            self.ARIMA = ARIMA(MongoURL=MongoURI)
+            self.ARIMA = ARIMA()
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
             exit(1)
@@ -112,6 +115,7 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
         topo = self.table_topo_info.find_one({"id": 1})
         data = json.loads(topo["info"])
         self.topo = json_graph.node_link_graph(data)
+        # self.topo = global_topo
 
         cache_list = [cache["name"] for cache in get_cache_list()]
         client_list = [node["name"] for node in NodeList]
@@ -216,7 +220,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                         "RXbandwidth_arima": rx_bw_arima,
                         "TXpackets": stat.tx_packets, "TXbytes": stat.tx_bytes,
                         "TXerrors": stat.tx_errors, "TXbandwidth": cur_tx_throughput}
-                self.table_port_monitor.insert_one(post)
+                # self.table_port_monitor.insert_one(post)
+                put_one("%016x" % ev.msg.datapath.id, stat.port_no, cur_tx_throughput, cur_rx_throughput)
                 table.append(["%016x" % ev.msg.datapath.id,
                               stat.port_no,
                               stat.rx_packets, stat.rx_bytes, cur_rx_throughput, stat.rx_errors, rx_bw_arima,
@@ -277,7 +282,8 @@ class SABRMonitor(simple_switch_13.SimpleSwitch13):
                     "portno": port.port_no,
                     "hwaddr": port.hw_addr,
                     "name": port.name.decode("utf-8")}
-
+            db["%016x" % port.dpid][port.port_no]["tx"] = queue.Queue(maxsize=QueueSize)
+            db["%016x" % port.dpid][port.port_no]["rx"] = queue.Queue(maxsize=QueueSize)
             self.table_port_info.update_one({"dpid": post["dpid"], "hwaddr": post["hwaddr"]}, {"$set": post}, upsert=True)
             node_name = port_addr_to_node_name(port.hw_addr)
             self.topo.add_node(node_name)
@@ -343,10 +349,10 @@ class SABRController(ControllerBase):
             self.mongo_client = MongoClient(MongoURI)
             print("Connected to MongoDB")
             self.db = self.mongo_client.opencdn
-            self.table_port_monitor = self.db.portmonitor
+            # self.table_port_monitor = self.db.portmonitor
             self.table_port_info = self.db.portinfo
             self.table_topo_info = self.db.topoinfo
-            self.ARIMA = ARIMA(MongoURL=MongoURI)
+            self.ARIMA = ARIMA()
             self.topo = nx.Graph()
         except ConnectionFailure as e:
             print("MongoDB connection failed: %s" % e)
