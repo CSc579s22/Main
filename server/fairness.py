@@ -81,6 +81,15 @@ def stage3(M, CL, t, ti, r_prime):
 
 
 def U_Prime(N, M, r, res, r_max):
+    """
+    :param N: int, the number of clients/streams
+    :param M: Predefined matrix for resolution and parameters
+    :param r: list, clients' current bitrate
+    :param res: list, clients' resolution
+    :param r_max: list, maximum bandwidth for each client
+    :return:
+    """
+
     u_prime_vector = []
     for i in range(N):
         if res[i] == 1080:
@@ -126,6 +135,13 @@ def Q(N, M, r, res):
 
 
 def VQ_fairness(N, M, r, res):
+    """
+    :param N: int, the number of clients/streams
+    :param M: Predefined matrix for resolution and parameters
+    :param r: list, clients' current bitrate
+    :param res: list, clients' resolution
+    :return:
+    """
     Q1 = Q(N, M, r, res)
     s_vq = np.std(Q1)
     RSD = (100 * s_vq) / np.mean(Q1)
