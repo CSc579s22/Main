@@ -4,6 +4,7 @@ import networkx as nx
 from matplotlib import pyplot as plt
 from config import switch
 from server.config import Switch
+from pprint import pprint
 
 
 def get_nx_graph_from_xml(filename):
@@ -86,7 +87,7 @@ def get_mac_by_ip_from_config(ip):
 
 
 def get_connected_sw_mapping(filename):
-    ConnectedSWKeys = {}
+    connected_sw_keys = {}
     tree = ET.parse(filename)
     root = tree.getroot()
     interface_ip_mapping = {}
@@ -110,8 +111,8 @@ def get_connected_sw_mapping(filename):
                 ip2 = interface_ip_mapping[ref[1]]
                 hwaddr1 = get_mac_by_ip_from_config(ip1)
                 hwaddr2 = get_mac_by_ip_from_config(ip2)
-                ConnectedSWKeys[hwaddr1] = hwaddr2
-    return ConnectedSWKeys
+                connected_sw_keys[hwaddr1] = hwaddr2
+    pprint(connected_sw_keys)
 
 
 if __name__ == "__main__":

@@ -152,4 +152,4 @@ if __name__ == "__main__":
     pprint(sw_list)
 
     print("\nupdate `ConnectedSwitchPort` in server/config.py")
-    pprint(get_connected_sw_mapping("topo.xml"))
+    get_connected_sw_mapping("topo.xml")
