@@ -16,17 +16,17 @@ ConnectedSwitchPort = {'02:4a:d4:6d:47:b6': '02:0f:e5:0b:54:27',
 
 Switch = [{'dpid': '0000dac7f8509042',
            'name': 'sw1',
-           'ports': [{'hwaddr': '02:3e:6a:af:85:ff', 'ip': '10.10.10.7', 'name': 'eth1'},
-                     {'hwaddr': '02:5c:9a:c9:72:e4', 'ip': '10.10.10.9', 'name': 'eth2'},
+           'ports': [{'hwaddr': '02:3e:6a:af:85:ff', 'ip': '10.10.10.7', 'name': 'eth1'},  # sw1cache1
+                     {'hwaddr': '02:5c:9a:c9:72:e4', 'ip': '10.10.10.9', 'name': 'eth2'},  # sw1c1
                      {'hwaddr': '02:3d:1f:da:5f:18',
                       'ip': '10.10.10.11',
-                      'name': 'eth3'},
+                      'name': 'eth3'},  # sw1c2
                      {'hwaddr': '02:55:f4:f0:f7:ae',
                       'ip': '10.10.10.13',
-                      'name': 'eth4'},
+                      'name': 'eth4'},  # sw1c3
                      {'hwaddr': '02:5d:d5:2b:3a:29',
                       'ip': '10.10.10.15',
-                      'name': 'eth5'},
+                      'name': 'eth5'},  # sw1c4
                      {'hwaddr': '02:4a:d4:6d:47:b6',
                       'ip': '10.10.10.2',
                       'name': 'eth6'}]},
@@ -37,16 +37,16 @@ Switch = [{'dpid': '0000dac7f8509042',
                       'name': 'eth1'},
                      {'hwaddr': '02:b0:b8:5c:7e:12',
                       'ip': '10.10.10.19',
-                      'name': 'eth2'},
+                      'name': 'eth2'},  # sw2c1
                      {'hwaddr': '02:58:65:f1:54:b6',
                       'ip': '10.10.10.21',
-                      'name': 'eth3'},
+                      'name': 'eth3'},  # sw2c2
                      {'hwaddr': '02:a5:6f:e0:e0:ab',
                       'ip': '10.10.10.23',
-                      'name': 'eth4'},
+                      'name': 'eth4'},  # sw2c3
                      {'hwaddr': '02:d2:ad:49:1f:3b',
                       'ip': '10.10.10.25',
-                      'name': 'eth5'},
+                      'name': 'eth5'},  # sw2c4
                      {'hwaddr': '02:50:7b:ca:bb:30',
                       'ip': '10.10.10.4',
                       'name': 'eth6'}]},

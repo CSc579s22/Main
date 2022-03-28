@@ -11,7 +11,7 @@ playback_command = "cd /proj/QoESDN/AStream/ && sudo python2 {} -t BigBuckBunny 
 clean_cmd = "sudo rm -rf /proj/QoESDN/AStream/ASTREAM_LOGS"
 alg_list = ["basic", "netflix", "sara"]
 
-node_name_list_to_test = ["sw-r-c1", "sw-r-c2", "sw-r-c3", "sw-r-c4"]
+node_name_list_to_test = ["sw1c1", "sw1c2", "sw1c3", "sw1c4"]
 
 
 def output(out):
