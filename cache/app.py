@@ -89,9 +89,10 @@ def hello_world(path):
             begin_time[client] = cur_time
         if client not in bitrate_history.keys():
             bitrate_history[client] = []
+        c = list(bitrate_history.keys())
         for i in range(len(bitrate_history.keys())):
-            c = list(bitrate_history.keys())
-            bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
+            if c[i] in fair_bitrate_list.keys():
+                bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
     elif str.endswith(str(path), ".mp4"):
         cur_time = time()
         if client not in begin_time.keys():
