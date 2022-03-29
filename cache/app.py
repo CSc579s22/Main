@@ -44,7 +44,7 @@ def get_resolution_by_bitrate(bitrate):
             return resolution
 
 
-# TODO: remove a client from bitrate_history if that client finishes playback
+# TODO: remove a client from bitrate_history if that client finishes playback by sending a goodbye request to the cache
 def calc_fair_bitrate(client, expected_bitrate):
     r_max = []
     res = []
