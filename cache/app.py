@@ -21,7 +21,7 @@ bitrate_map = {
 
 
 def get_resolution_by_bitrate(bitrate):
-    for resolution in bitrate_map:
+    for resolution in bitrate_map.keys():
         if bitrate in bitrate_map[resolution]:
             return resolution
 
