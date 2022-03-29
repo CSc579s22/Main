@@ -28,6 +28,7 @@ def find_closest_bitrate(optimal_bitrate):
     bitrate_list = []
     for bitrate in bitrate_map.values():
         bitrate_list += bitrate
+    print("bitrate_list: ", bitrate_list)
     diff = sys.maxsize
     index = -1
     for i in range(len(bitrate_list)):
@@ -49,22 +50,27 @@ def calc_fair_bitrate(client, expected_bitrate):
     client_list = []
     expected_resolution = get_resolution_by_bitrate(expected_bitrate)
     for c in bitrate_history.keys():
+        if c == client:
+            continue
         client_list.append(c)
         # history for one client
         history = bitrate_history[c]
         # get most recent bitrate
         bitrate = history[-1]["bitrate"]
         resolution = get_resolution_by_bitrate(bitrate)
-        res.append(resolution)
+        res.append(int(resolution))
         r_max.append(bitrate_map[resolution][-1])
     client_list.append(client)
-    res.append(expected_resolution)
+    res.append(int(expected_resolution))
     r_max.append(bitrate_map[expected_resolution][-1])
+    assert len(res) == len(r_max)
+    print(res)
+    print(r_max)
     numerical_result = stage1(res, r_max, total_bw)
     print(numerical_result)
-    result = []
-    for r in numerical_result:
-        result.append(str(find_closest_bitrate(r)))
+    result = {}
+    for i in range(len(numerical_result)):
+        result[client_list[i]] = str(find_closest_bitrate(r))
     return result
 
 
@@ -75,15 +81,17 @@ def hello_world(path):
     if str.endswith(str(path), ".m4s") or str.endswith(str(path), ".mp4"):
         requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
         fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
-        path = path.replace(requested_bitrate, fair_bitrate_list[-1])
+        path = path.replace(requested_bitrate, fair_bitrate_list[client])
         cur_time = time()
         if client not in begin_time.keys():
             begin_time[client] = cur_time
         if client not in bitrate_history.keys():
             bitrate_history[client] = []
         for i in range(len(bitrate_history.keys())):
-            bitrate_history[client].append({"time": cur_time - begin_time[client], "bitrate": fair_bitrate_list[i]})
+            c = list(bitrate_history.keys())
+            bitrate_history[i].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
     url = "{}/{}".format(cache_address, path)
+    print(url)
     return redirect(url)
 
 
