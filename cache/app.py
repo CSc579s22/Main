@@ -2,32 +2,66 @@ from flask import Flask, redirect, request
 from time import time
 from collections import defaultdict
 from pprint import pprint
+from server.fairness import stage1
+
 
 app = Flask(__name__)
-cache_addr = "http://10.10.10.8:81"
+cache_address = "http://10.10.10.8:81"
 
-history = defaultdict(lambda: list())
+bitrate_history = defaultdict(lambda: list())
 begin_time = {}
+total_bw = 1000
 
-bitrate_list = [89283, 262537, 791182, 2484135, 4219897]
+
+# bitrate_list = [89283, 262537, 791182, 2484135, 4219897]
+bitrate_map = {
+    "360": [89283, 262537],
+    "720": [791182],
+    "1080": [2484135, 4219897]
+}
+
+
+def get_resolution_by_bitrate(bitrate):
+    for resolution in bitrate_map:
+        if bitrate in bitrate_map[resolution]:
+            return resolution
+
+
+def calc_fair_bitrate(client, expected_resolution):
+    r_max = []
+    res = []
+    client_list = []
+    for c in bitrate_history.keys():
+        client_list.append(c)
+        # history for one client
+        history = bitrate_history[c]
+        # get most recent bitrate
+        bitrate = history[-1]["bitrate"]
+        resolution = get_resolution_by_bitrate(bitrate)
+        res.append(resolution)
+        r_max.append(bitrate_map[resolution][-1])
+    client_list.append(client)
+    res.append(expected_resolution)
+    r_max.append(bitrate_map[expected_resolution][-1])
+    result = stage1(res, r_max, total_bw)
+    print(result)
+    return result
 
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def hello_world(path):
-    host = request.remote_addr
-    print(host)
+    client = request.remote_addr
     if str.endswith(str(path), ".m4s"):
-        bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
-        new_bitrate = str(bitrate_list[int(int(host[-1])/2)])
-        path = path.replace(bitrate, new_bitrate)
-        print("new path: ", path)
+        requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
+        fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
+        path = path.replace(requested_bitrate, fair_bitrate_list[-1])
         cur_time = time()
-        if host not in begin_time.keys():
-            begin_time[host] = cur_time
-        history[host].append({"time": cur_time - begin_time[host], "bitrate": new_bitrate})
-        pprint(history)
-    url = "{}/{}".format(cache_addr, path)
+        if client not in begin_time.keys():
+            begin_time[client] = cur_time
+        for i in range(len(bitrate_history.keys())):
+            bitrate_history[i].append({"time": cur_time - begin_time[client], "bitrate": fair_bitrate_list[i]})
+    url = "{}/{}".format(cache_address, path)
     return redirect(url)
 
 

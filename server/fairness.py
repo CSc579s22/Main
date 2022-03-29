@@ -5,7 +5,14 @@ M = [[-3.035, -0.5061, 1.022], [-4.85, -0.647, 1.011], [-17.53, -1.048, 0.9912]]
 
 
 # a vector of res=[] and r_max=[] is needed!
-def stage1(N, M, res, r_max, BW):
+def stage1(res, r_max, BW):
+    """
+    :param res: expected resolution from clients
+    :param r_max:
+    :param BW:
+    :return:
+    """
+    N = len(res)
     u = []
     r = list(symbols('r0:%d' % N))
     # print("vector of r= ", r)
