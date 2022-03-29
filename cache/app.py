@@ -1,3 +1,4 @@
+import json
 import sys
 
 from flask import Flask, redirect, request
@@ -75,8 +76,8 @@ def calc_fair_bitrate(client, expected_bitrate):
     return result
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
 def hello_world(path):
     client = request.remote_addr
     if str.endswith(str(path), ".m4s") or str.endswith(str(path), ".mp4"):
@@ -94,6 +95,14 @@ def hello_world(path):
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
+
+
+@app.route("/bye")
+def bye():
+    client = request.remote_addr
+    if client in bitrate_history.keys():
+        del bitrate_history[client]
+    return json.dumps("bye {}".format(client))
 
 
 if __name__ == "__main__":
