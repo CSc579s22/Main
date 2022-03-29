@@ -1,8 +1,7 @@
 from flask import Flask, redirect, request
 from time import time
 from collections import defaultdict
-from pprint import pprint
-from server.fairness import stage1
+from fairness import stage1
 
 
 app = Flask(__name__)
