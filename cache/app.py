@@ -44,6 +44,7 @@ def get_resolution_by_bitrate(bitrate):
             return resolution
 
 
+# TODO: remove a client from bitrate_history if that client finishes playback
 def calc_fair_bitrate(client, expected_bitrate):
     r_max = []
     res = []
@@ -70,7 +71,7 @@ def calc_fair_bitrate(client, expected_bitrate):
     print(numerical_result)
     result = {}
     for i in range(len(numerical_result)):
-        result[client_list[i]] = str(find_closest_bitrate(r))
+        result[client_list[i]] = str(find_closest_bitrate(numerical_result[i]))
     return result
 
 
@@ -89,7 +90,7 @@ def hello_world(path):
             bitrate_history[client] = []
         for i in range(len(bitrate_history.keys())):
             c = list(bitrate_history.keys())
-            bitrate_history[i].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
+            bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
