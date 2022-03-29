@@ -26,10 +26,11 @@ def get_resolution_by_bitrate(bitrate):
             return resolution
 
 
-def calc_fair_bitrate(client, expected_resolution):
+def calc_fair_bitrate(client, expected_bitrate):
     r_max = []
     res = []
     client_list = []
+    expected_resolution = get_resolution_by_bitrate(expected_bitrate)
     for c in bitrate_history.keys():
         client_list.append(c)
         # history for one client
