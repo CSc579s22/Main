@@ -1,7 +1,10 @@
+import sys
+
 from flask import Flask, redirect, request
 from time import time
 from collections import defaultdict
 from fairness import stage1
+from math import fabs
 
 
 app = Flask(__name__)
@@ -20,9 +23,23 @@ bitrate_map = {
 }
 
 
+def find_closest_bitrate(optimal_bitrate):
+    optimal_bitrate = optimal_bitrate * 1000
+    bitrate_list = []
+    for bitrate in bitrate_map.values():
+        bitrate_list += bitrate
+    diff = sys.maxsize
+    index = -1
+    for i in range(len(bitrate_list)):
+        if fabs(bitrate_list[i] - optimal_bitrate) < diff:
+            diff = fabs(bitrate_list[i] - optimal_bitrate)
+            index = i
+    return bitrate_list[index]
+
+
 def get_resolution_by_bitrate(bitrate):
     for resolution in bitrate_map.keys():
-        if bitrate in bitrate_map[resolution]:
+        if int(bitrate) in bitrate_map[resolution]:
             return resolution
 
 
@@ -43,8 +60,11 @@ def calc_fair_bitrate(client, expected_bitrate):
     client_list.append(client)
     res.append(expected_resolution)
     r_max.append(bitrate_map[expected_resolution][-1])
-    result = stage1(res, r_max, total_bw)
-    print(result)
+    numerical_result = stage1(res, r_max, total_bw)
+    print(numerical_result)
+    result = []
+    for r in numerical_result:
+        result.append(str(find_closest_bitrate(r)))
     return result
 
 
@@ -52,7 +72,7 @@ def calc_fair_bitrate(client, expected_bitrate):
 @app.route('/<path:path>')
 def hello_world(path):
     client = request.remote_addr
-    if str.endswith(str(path), ".m4s"):
+    if str.endswith(str(path), ".m4s") or str.endswith(str(path), ".mp4"):
         requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
         fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
         path = path.replace(requested_bitrate, fair_bitrate_list[-1])
