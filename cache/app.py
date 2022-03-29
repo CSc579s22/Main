@@ -80,7 +80,7 @@ def calc_fair_bitrate(client, expected_bitrate):
 @app.route("/<path:path>")
 def hello_world(path):
     client = request.remote_addr
-    if str.endswith(str(path), ".m4s") or str.endswith(str(path), ".mp4"):
+    if str.endswith(str(path), ".m4s"):
         requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
         fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
         path = path.replace(requested_bitrate, fair_bitrate_list[client])
@@ -92,6 +92,12 @@ def hello_world(path):
         for i in range(len(bitrate_history.keys())):
             c = list(bitrate_history.keys())
             bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
+    elif str.endswith(str(path), ".mp4"):
+        cur_time = time()
+        if client not in begin_time.keys():
+            begin_time[client] = cur_time
+        if client not in bitrate_history.keys():
+            bitrate_history[client] = []
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
