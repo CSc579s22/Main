@@ -79,8 +79,10 @@ def hello_world(path):
         cur_time = time()
         if client not in begin_time.keys():
             begin_time[client] = cur_time
+        if client not in bitrate_history.keys():
+            bitrate_history[client] = []
         for i in range(len(bitrate_history.keys())):
-            bitrate_history[i].append({"time": cur_time - begin_time[client], "bitrate": fair_bitrate_list[i]})
+            bitrate_history[client].append({"time": cur_time - begin_time[client], "bitrate": fair_bitrate_list[i]})
     url = "{}/{}".format(cache_address, path)
     return redirect(url)
 
