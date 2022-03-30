@@ -87,8 +87,8 @@ def hello_world(path):
         cur_time = time()
         if client not in begin_time.keys():
             begin_time[client] = cur_time
-        if client not in bitrate_history.keys():
-            bitrate_history[client] = []
+        # if client not in bitrate_history.keys():
+        #     bitrate_history[client] = []
         c = list(bitrate_history.keys())
         for i in range(len(bitrate_history.keys())):
             if c[i] in fair_bitrate_list.keys():
