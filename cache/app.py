@@ -57,10 +57,11 @@ def calc_fair_bitrate(client, expected_bitrate):
         # history for one client
         history = bitrate_history[c]
         # get most recent bitrate
-        bitrate = history[-1]["bitrate"]
-        resolution = get_resolution_by_bitrate(bitrate)
-        res.append(int(resolution))
-        r_max.append(bitrate_map[resolution][-1])
+        if len(history) > 0:
+            bitrate = history[-1]["bitrate"]
+            resolution = get_resolution_by_bitrate(bitrate)
+            res.append(int(resolution))
+            r_max.append(bitrate_map[resolution][-1])
     client_list.append(client)
     res.append(int(expected_resolution))
     r_max.append(bitrate_map[expected_resolution][-1])
@@ -86,8 +87,6 @@ def hello_world(path):
         cur_time = time()
         if client not in begin_time.keys():
             begin_time[client] = cur_time
-        # if client not in bitrate_history.keys():
-        #     bitrate_history[client] = []
         c = list(bitrate_history.keys())
         for i in range(len(bitrate_history.keys())):
             if c[i] in fair_bitrate_list.keys():
@@ -96,8 +95,8 @@ def hello_world(path):
         cur_time = time()
         if client not in begin_time.keys():
             begin_time[client] = cur_time
-        # if client not in bitrate_history.keys():
-        #     bitrate_history[client] = []
+        if client not in bitrate_history.keys():
+            bitrate_history[client] = []
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
