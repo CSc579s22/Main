@@ -29,7 +29,6 @@ def find_closest_bitrate(optimal_bitrate):
     bitrate_list = []
     for bitrate in bitrate_map.values():
         bitrate_list += bitrate
-    print("bitrate_list: ", bitrate_list)
     diff = sys.maxsize
     index = -1
     for i in range(len(bitrate_list)):
