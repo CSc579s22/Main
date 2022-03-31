@@ -111,6 +111,7 @@ def bye():
     client = request.remote_addr
     if client in bitrate_history.keys():
         del bitrate_history[client]
+        del begin_time[client]
     return json.dumps("bye {}".format(client))
 
 
