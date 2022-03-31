@@ -70,6 +70,7 @@ def calc_fair_bitrate(client, expected_bitrate):
     assert len(res) == len(r_max)
     print(res)
     print(r_max)
+    print(client_list)
     numerical_result = stage1(res, r_max, total_bw)
     print(numerical_result)
     result = {}
