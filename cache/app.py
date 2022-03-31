@@ -25,6 +25,13 @@ bitrate_map = {
     "1080": [2484135, 4219897]
 }
 
+client_max_bw = {
+    "10.10.10.10": 200000,
+    "10.10.10.12": 400000,
+    "10.10.10.14": 600000,
+    "10.10.10.16": 800000,
+}
+
 
 def find_closest_bitrate(optimal_bitrate):
     optimal_bitrate = optimal_bitrate * 1000
@@ -46,7 +53,6 @@ def get_resolution_by_bitrate(bitrate):
             return resolution
 
 
-# TODO: remove a client from bitrate_history if that client finishes playback by sending a goodbye request to the cache
 def calc_fair_bitrate(client, expected_bitrate):
     r_max = []
     res = []
@@ -63,11 +69,10 @@ def calc_fair_bitrate(client, expected_bitrate):
             bitrate = history[-1]["bitrate"]
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
-            r_max.append(bitrate_map[resolution][-1])
+            r_max.append(min(bitrate_map[resolution][-1], client_max_bw[client]))
     client_list.append(client)
     res.append(int(expected_resolution))
     r_max.append(bitrate_map[expected_resolution][-1])
-    assert len(res) == len(r_max)
     print(res)
     print(r_max)
     print(client_list)
