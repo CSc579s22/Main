@@ -68,12 +68,16 @@ def calc_fair_bitrate(client, expected_bitrate):
             bitrate = history[-1]["bitrate"]
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
-            r_max.append(bitrate_map[resolution][-1])
+            r_max.append(bitrate_map[resolution][-1]/1000.0)
     client_list.append(client)
     res.append(int(expected_resolution))
     # r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
-    r_max.append(bitrate_map[expected_resolution][-1])
-    numerical_result = stage1(res, r_max, total_bw)
+    r_max.append(bitrate_map[expected_resolution][-1]/1000.0)
+    try:
+        numerical_result = stage1(res, r_max, total_bw)
+    except ValueError as e:
+        print("res: {} r_max: {}, error: {}".format(res, r_max, str(e)))
+        sys.exit(1)
     result = {}
     for i in range(len(numerical_result)):
         result[client_list[i]] = str(find_closest_bitrate(numerical_result[i]))
@@ -90,12 +94,8 @@ def hello_world(path):
             fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
             path = path.replace(requested_bitrate, fair_bitrate_list[client])
             cur_time = time()
-            if client not in begin_time.keys():
-                begin_time[client] = cur_time
-            c = list(bitrate_history.keys())
-            for i in range(len(bitrate_history.keys())):
-                if c[i] in fair_bitrate_list.keys():
-                    bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
+            for i in bitrate_history.keys():
+                bitrate_history[i].append({"time": cur_time - begin_time[i], "bitrate": fair_bitrate_list[i]})
         elif str.endswith(str(path), ".mp4"):
             cur_time = time()
             if client not in begin_time.keys():

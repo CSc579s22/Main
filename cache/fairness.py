@@ -16,7 +16,7 @@ def stage1(res, r_max, BW):
     """
     N = len(res)
     u = []
-    r = list(symbols('r0:%d' % N))
+    r = list(symbols('r0:%d' % N, positive=True, real=True))
     # print("vector of r= ", r)
     for i in range(N):
         if res[i] == 1080:
