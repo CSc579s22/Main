@@ -68,11 +68,11 @@ def calc_fair_bitrate(client, expected_bitrate):
             bitrate = history[-1]["bitrate"]
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
-            r_max.append(bitrate_map[resolution][-1])
+            r_max.append(int(bitrate_map[resolution][-1]))
     client_list.append(client)
     res.append(int(expected_resolution))
     # r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
-    r_max.append(bitrate_map[expected_resolution][-1])
+    r_max.append(int(bitrate_map[expected_resolution][-1]))
     try:
         numerical_result = stage1(res, r_max, total_bw)
     except ValueError as e:
@@ -84,7 +84,7 @@ def calc_fair_bitrate(client, expected_bitrate):
         result[client_list[i]] = str(find_closest_bitrate(numerical_result[i]))
         bitrate_history[client_list[i]].append({"time": cur_time - begin_time[client_list[i]],
                                                 "bitrate": result[client_list[i]]})
-    return result
+    return result[client]
 
 
 @app.route("/", defaults={"path": ""})
@@ -94,14 +94,12 @@ def hello_world(path):
         client = request.remote_addr
         if str.endswith(str(path), ".m4s"):
             requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
-            fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
-            path = path.replace(requested_bitrate, fair_bitrate_list[client])
+            fair_bitrate = calc_fair_bitrate(client, requested_bitrate)
+            path = path.replace(requested_bitrate, fair_bitrate)
         elif str.endswith(str(path), ".mp4"):
             cur_time = time()
-            if client not in begin_time.keys():
-                begin_time[client] = cur_time
-            if client not in bitrate_history.keys():
-                bitrate_history[client] = []
+            begin_time[client] = cur_time
+            bitrate_history[client] = []
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
