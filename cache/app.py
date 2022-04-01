@@ -6,7 +6,7 @@ from time import time
 from collections import defaultdict
 from fairness import stage1
 from math import fabs
-from threading import RLock
+from threading import Lock
 
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ cache_address = "http://10.10.10.8:81"
 bitrate_history = defaultdict(lambda: list())
 begin_time = {}
 total_bw = 1000
-lock = RLock()
+lock = Lock()
 fairness = True
 
 
