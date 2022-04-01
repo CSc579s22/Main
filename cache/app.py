@@ -25,10 +25,10 @@ bitrate_map = {
 }
 
 client_max_bw = {
-    "10.10.10.10": 200000,
-    "10.10.10.12": 400000,
-    "10.10.10.14": 600000,
-    "10.10.10.16": 800000,
+    "10.10.10.10": 500000,
+    "10.10.10.12": 500000,
+    "10.10.10.14": 500000,
+    "10.10.10.16": 500000,
 }
 
 
@@ -58,9 +58,9 @@ def calc_fair_bitrate(client, expected_bitrate):
     client_list = []
     expected_resolution = get_resolution_by_bitrate(expected_bitrate)
     for c in bitrate_history.keys():
+        # current client are appended at the end
         if c == client:
             continue
-        # history for one client
         history = bitrate_history[c]
         # get most recent bitrate
         if len(history) > 0:
@@ -72,8 +72,6 @@ def calc_fair_bitrate(client, expected_bitrate):
     client_list.append(client)
     res.append(int(expected_resolution))
     r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
-    print(res)
-    print(r_max)
     numerical_result = stage1(res, r_max, total_bw)
     result = {}
     for i in range(len(numerical_result)):

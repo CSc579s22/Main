@@ -9,7 +9,7 @@ from server.config import NodeList
 client_path = "/proj/QoESDN/AStream/dist/client/dash_client.py"
 playback_command = "cd /proj/QoESDN/AStream/ && sudo python2 {} -t BigBuckBunny -c 10.10.10.1:8080 -p {} -i {}"
 clean_cmd = "sudo rm -rf /proj/QoESDN/AStream/ASTREAM_LOGS"
-alg_list = ["basic", "netflix", "sara"]
+alg_list = ["basic"]
 
 node_name_list_to_test = ["sw1c1", "sw1c2", "sw1c3", "sw1c4"]
 
