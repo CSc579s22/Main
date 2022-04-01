@@ -6,7 +6,6 @@ from time import time
 from collections import defaultdict
 from fairness import stage1
 from math import fabs
-from threading import Lock
 
 
 app = Flask(__name__)
@@ -15,7 +14,6 @@ cache_address = "http://10.10.10.8:81"
 bitrate_history = defaultdict(lambda: list())
 begin_time = {}
 total_bw = 1000
-lock = Lock()
 fairness = True
 
 
@@ -62,11 +60,11 @@ def calc_fair_bitrate(client, expected_bitrate):
     for c in bitrate_history.keys():
         if c == client:
             continue
-        client_list.append(c)
         # history for one client
         history = bitrate_history[c]
         # get most recent bitrate
         if len(history) > 0:
+            client_list.append(c)
             bitrate = history[-1]["bitrate"]
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
@@ -76,9 +74,7 @@ def calc_fair_bitrate(client, expected_bitrate):
     r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
     print(res)
     print(r_max)
-    print(client_list)
     numerical_result = stage1(res, r_max, total_bw)
-    print(numerical_result)
     result = {}
     for i in range(len(numerical_result)):
         result[client_list[i]] = str(find_closest_bitrate(numerical_result[i]))
@@ -91,24 +87,22 @@ def hello_world(path):
     if fairness is True:
         client = request.remote_addr
         if str.endswith(str(path), ".m4s"):
-            with lock:
-                requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
-                fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
-                path = path.replace(requested_bitrate, fair_bitrate_list[client])
-                cur_time = time()
-                if client not in begin_time.keys():
-                    begin_time[client] = cur_time
-                c = list(bitrate_history.keys())
-                for i in range(len(bitrate_history.keys())):
-                    if c[i] in fair_bitrate_list.keys():
-                        bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
+            requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
+            fair_bitrate_list = calc_fair_bitrate(client, requested_bitrate)
+            path = path.replace(requested_bitrate, fair_bitrate_list[client])
+            cur_time = time()
+            if client not in begin_time.keys():
+                begin_time[client] = cur_time
+            c = list(bitrate_history.keys())
+            for i in range(len(bitrate_history.keys())):
+                if c[i] in fair_bitrate_list.keys():
+                    bitrate_history[c[i]].append({"time": cur_time - begin_time[c[i]], "bitrate": fair_bitrate_list[c[i]]})
         elif str.endswith(str(path), ".mp4"):
-            with lock:
-                cur_time = time()
-                if client not in begin_time.keys():
-                    begin_time[client] = cur_time
-                if client not in bitrate_history.keys():
-                    bitrate_history[client] = []
+            cur_time = time()
+            if client not in begin_time.keys():
+                begin_time[client] = cur_time
+            if client not in bitrate_history.keys():
+                bitrate_history[client] = []
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
