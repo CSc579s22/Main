@@ -68,10 +68,11 @@ def calc_fair_bitrate(client, expected_bitrate):
             bitrate = history[-1]["bitrate"]
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
-            r_max.append(min(bitrate_map[resolution][-1], client_max_bw[c]))
+            r_max.append(bitrate_map[resolution][-1])
     client_list.append(client)
     res.append(int(expected_resolution))
-    r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
+    # r_max.append(min(bitrate_map[expected_resolution][-1], client_max_bw[client]))
+    r_max.append(bitrate_map[expected_resolution][-1])
     numerical_result = stage1(res, r_max, total_bw)
     result = {}
     for i in range(len(numerical_result)):
