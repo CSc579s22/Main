@@ -6,12 +6,13 @@ from time import time
 from collections import defaultdict
 from fairness import stage1
 from math import fabs
+from queue import LifoQueue
 
 
 app = Flask(__name__)
 cache_address = "http://10.10.10.8:81"
 
-bitrate_history = defaultdict(lambda: list())
+bitrate_history = defaultdict(lambda: LifoQueue())
 begin_time = {}
 total_bw = 1000
 fairness = True
@@ -63,9 +64,9 @@ def calc_fair_bitrate(client, expected_bitrate):
             continue
         history = bitrate_history[c]
         # get most recent bitrate
-        if len(history) > 0:
+        if history.qsize() > 0:
             client_list.append(c)
-            bitrate = history[-1]["bitrate"]
+            bitrate = history.get()
             resolution = get_resolution_by_bitrate(bitrate)
             res.append(int(resolution))
             r_max.append(int(bitrate_map[resolution][-1]))
@@ -82,8 +83,9 @@ def calc_fair_bitrate(client, expected_bitrate):
     cur_time = time()
     for i in range(len(numerical_result)):
         result[client_list[i]] = str(find_closest_bitrate(numerical_result[i]))
-        bitrate_history[client_list[i]].append({"time": cur_time - begin_time[client_list[i]],
-                                                "bitrate": result[client_list[i]]})
+        bitrate_history[client_list[i]].put(result[client_list[i]])
+        # bitrate_history[client_list[i]].append({"time": cur_time - begin_time[client_list[i]],
+        #                                         "bitrate": result[client_list[i]]})
     return result[client]
 
 
@@ -94,12 +96,13 @@ def hello_world(path):
         client = request.remote_addr
         if str.endswith(str(path), ".m4s"):
             requested_bitrate = path.split("/")[2].split("_")[1].split("bps")[0]
+            bitrate_history[client].put(requested_bitrate)
             fair_bitrate = calc_fair_bitrate(client, requested_bitrate)
             path = path.replace(requested_bitrate, fair_bitrate)
         elif str.endswith(str(path), ".mp4"):
             cur_time = time()
             begin_time[client] = cur_time
-            bitrate_history[client] = []
+            bitrate_history[client] = LifoQueue()
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
