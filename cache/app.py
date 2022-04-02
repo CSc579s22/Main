@@ -14,7 +14,8 @@ cache_address = "http://10.10.10.8:81"
 bitrate_history = defaultdict(lambda: list())
 begin_time = {}
 total_bw = 1000
-fairness = True
+fairness = False
+sabr = True
 
 
 # bitrate_list = [89283, 262537, 791182, 2484135, 4219897]
@@ -90,6 +91,7 @@ def calc_fair_bitrate(client, expected_bitrate):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def hello_world(path):
+    global cache_address
     if fairness is True:
         client = request.remote_addr
         if str.endswith(str(path), ".m4s"):
@@ -100,6 +102,10 @@ def hello_world(path):
             cur_time = time()
             begin_time[client] = cur_time
             bitrate_history[client] = []
+    elif sabr is True:
+        client = request.remote_addr
+        if client in ["10.10.10.10", "10.10.10.12"]:
+            cache_address = "http://10.10.10.18:81"
     url = "{}/{}".format(cache_address, path)
     print(url)
     return redirect(url)
